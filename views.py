@@ -34,9 +34,9 @@ def logout():
     pass
 
 @app.route('/edit-profile', methods=['GET'])
-def logout():
+def edit_profile():
     pass
-
 
 #todo remember me
 #todo login with fb & twitter
+#todo forgot password
