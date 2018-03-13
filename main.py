@@ -1,4 +1,4 @@
-__author__ = 'Piotr Dyba'
+__author__ = 'Kamila Urbaniak, Paulina Gralak'
 
 from os import path
 
@@ -9,7 +9,7 @@ from flask_bcrypt import Bcrypt
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students_manager.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.app = app
@@ -19,8 +19,6 @@ lm.init_app(app)
 bcrypt = Bcrypt()
 
 app.static_path = path.join(path.abspath(__file__), 'static')
-
-
 
 if __name__ == '__main__':
     from views import *

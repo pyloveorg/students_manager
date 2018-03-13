@@ -1,6 +1,8 @@
-__author__ = 'Piotr Dyba'
+__author__ = 'Kamila Urbaniak, Paulina Gralak'
 
 from flask.ext.login import UserMixin
+
+#import flask_login
 
 from sqlalchemy import Column
 from sqlalchemy.types import Integer

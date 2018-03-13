@@ -1,12 +1,12 @@
-__author__ = 'Piotr Dyba'
+__author__ = 'Kamila Urbaniak, Paulina Gralak'
 
 from sqlalchemy import create_engine
-from app import db, bcrypt
+from main import db, bcrypt
 import models
 
 
 def db_start():
-    create_engine('sqlite:///tmp/test.db', convert_unicode=True)
+    create_engine('sqlite:///tmp/students_manager.db', convert_unicode=True)
     db.create_all()
     db.session.commit()
     user = models.User()
@@ -17,8 +17,6 @@ def db_start():
     user.poweruser = True
     db.session.add(user)
     db.session.commit()
-
-
 
 if __name__ == '__main__':
     db_start()
