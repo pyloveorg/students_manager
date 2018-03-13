@@ -7,4 +7,4 @@ Aplikacja dla studentów kierunku
 5. Wyświetlanie info o studentach (imię, nazwisko, rok, grupa dziekańska, mail)
 6. Wyszukiwanie po nazwiskach (studenci i prowadzący) itd.
 7. Studenci mają możliwość wrzucania linków ze swoimi notatkami do każdego z przedmiotów
-8. Możliwość tworzenia grup zainteresowań - każda będzie miała swoją osobą stronę
+8. Możliwość tworzenia grup dziekańskich - każda będzie miała swoją osobą stronę
