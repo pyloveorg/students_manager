@@ -9,6 +9,8 @@ from sqlalchemy.types import Boolean
 
 from main import db
 
+from wtforms import Form, validators, StringField, PasswordField
+
 
 class User(db.Model, UserMixin):
     """
@@ -32,3 +34,18 @@ class User(db.Model, UserMixin):
         Returns if user is admin.
         """
         return self.admin
+
+    def __repr__(self):
+        return "User(id={}, email={}, password={}, admin={}".format(self.id, self.email, self.password, self.admin)
+
+
+class RegistrationForm(Form):
+    username = StringField('Username', [validators.Length(min=5, max=25)])
+    email = StringField('Email Address', [validators.Length(min=6, max=35)])
+    password = PasswordField('Password', [validators.InputRequired(), validators.EqualTo('confirm', message='Passwords must match')])
+    confirm = PasswordField('Repeat Password')
+
+class LoginForm(Form):
+    username = StringField('Username', [validators.Length(min=5, max=25)])
+    password = StringField('New Password', [validators.Length(min=5, max=25)])
+    email = StringField('Email Address', [validators.Length(min=6, max=35)])
