@@ -60,7 +60,7 @@ def profile():
     if 'username' in session:
         username = session['username']
         return 'Logged in as ' + username + '<br>' + \
-               "<b><a href = '/logout'>click here to log out</a></b>"
+               "<b><a href ='/logout'>click here to log out</a></b>"
     else:
         return render_template('login.html')
 
