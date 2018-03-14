@@ -1,16 +1,23 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 
-{% block title %}Login{% endblock %}
+{% set page_id = 'login' %}
 {% block nav_home %}active{% endblock %}
-
 {% block content %}
-  <h2>Login</h2>
-  <form action="" method="post">
-  {{ form.hidden_tag() }}
-    <dl>
-      <dt>
-      <dd><input type="text" name="admin">
-      <dd><input type="submit" value="login">
-    </dl>
-  </form>
+  <div class="row">
+    <div class="col-2"></div>
+
+    <div class="col-8">
+      <h3>Login</h3>
+    </div>
+{% from "_formhelpers.html" import render_field %}
+<form method=post>
+  <dl>
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+  </dl>
+  <p><input type=submit value=Login>
+</form>
+
+    <div class="col-2"></div>
+  </div>
 {% endblock %}

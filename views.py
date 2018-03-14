@@ -26,7 +26,7 @@ def info():
 def register():
     form = RegistrationForm(request.form)
     if request.method == 'POST' and form.validate():
-        user = User(form.username.data, form.email.data, form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Thanks for registering')
@@ -34,13 +34,20 @@ def register():
     else:
         return render_template('register.html', form=form)
 
+#todo potwierdzenie rejestracji na mailu
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
-    if form.validate_on_submit():
-        login_user(form.username)
-        flash('Logged in successfully.')
-        return redirect('/<int:username>')
+    error = None
+    if request.method == 'POST' and form.validate():
+        user = User.query.filter_by(username=form.username.data.lower()).first()
+        if user:
+            if login_user(user):
+                flash('Logged in successfully.')
+                return redirect('/<int:username>')
+        else:
+            error = 'Invalid username or password.'
     else:
         return render_template('login.html', form=form)
 

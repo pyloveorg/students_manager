@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
     """
     __tablename__ = 'user'
     id = Column(Integer, autoincrement=True, primary_key=True)
+    username = Column(String(25), default='')
     active = Column(Boolean, default=True)
     email = Column(String(200), unique=True)
     password = Column(String(200), default='')
@@ -43,17 +44,17 @@ class User(db.Model, UserMixin):
 
 
 class RegistrationForm(Form):
-    username = StringField('Username', [validators.Length(min=5, max=25)], validators.InputRequired())
+    username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
     #todo moc hasła
-    email = EmailField('Email Address', [validators.Length(min=6, max=35)], validators.Email())
+    email = EmailField('Email Address', [validators.Length(min=6, max=35), validators.Email()])
     password = PasswordField('Password', [validators.InputRequired(),
                                           validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
 
 class LoginForm(Form):
-    username = StringField('Username', [validators.Length(min=5, max=25)])
-    password = StringField('New Password', [validators.Length(min=5, max=25)])
-    email = EmailField('Email Address', [validators.Length(min=6, max=35)], validators.Email())
+    username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
+    password = PasswordField('Password', [validators.InputRequired(), validators.Length(min=5, max=25)])
+    #todo login przez username lub email
 
 class ChangePassword(Form):
     password = PasswordField('Password', [validators.InputRequired(),
