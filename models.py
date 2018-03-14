@@ -12,6 +12,7 @@ from sqlalchemy.types import Boolean
 from main import db
 
 from wtforms import Form, validators, StringField, PasswordField
+from wtforms.fields.html5 import EmailField
 
 
 class User(db.Model, UserMixin):
@@ -42,12 +43,19 @@ class User(db.Model, UserMixin):
 
 
 class RegistrationForm(Form):
-    username = StringField('Username', [validators.Length(min=5, max=25)])
-    email = StringField('Email Address', [validators.Length(min=6, max=35)])
-    password = PasswordField('Password', [validators.InputRequired(), validators.EqualTo('confirm', message='Passwords must match')])
+    username = StringField('Username', [validators.Length(min=5, max=25)], validators.InputRequired())
+    #todo moc hasła
+    email = EmailField('Email Address', [validators.Length(min=6, max=35)], validators.Email())
+    password = PasswordField('Password', [validators.InputRequired(),
+                                          validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
 
 class LoginForm(Form):
     username = StringField('Username', [validators.Length(min=5, max=25)])
     password = StringField('New Password', [validators.Length(min=5, max=25)])
-    email = StringField('Email Address', [validators.Length(min=6, max=35)])
+    email = EmailField('Email Address', [validators.Length(min=6, max=35)], validators.Email())
+
+class ChangePassword(Form):
+    password = PasswordField('Password', [validators.InputRequired(),
+                                          validators.EqualTo('confirm', message='Passwords must match')])
+    confirm = PasswordField('Repeat Password')

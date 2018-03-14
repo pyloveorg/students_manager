@@ -6,7 +6,7 @@ from main import bcrypt
 from main import lm
 
 from flask import render_template, redirect, request, flash, Blueprint, session
-import flask_login
+from flask.ext.login import LoginManager, login_required, logout_user, login_user
 from models import User, LoginForm, RegistrationForm
 
 @lm.user_loader
@@ -36,19 +36,22 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    #form = LoginForm(request.form)
-    if request.method == ['POST']:
-        username = request.form['username']
-        password = request.form['password']
-
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        login_user(form.username)
+        flash('Logged in successfully.')
+        return redirect('/<int:username>')
     else:
-        return render_template('login.html')
+        return render_template('login.html', form=form)
 
 @app.route('/logout', methods=['GET'])
+@login_required
 def logout():
-    pass
+    logout_user()
+    return redirect('/login')
 
 @app.route('/edit-profile', methods=['GET'])
+@login_required
 def edit_profile():
     pass
 
@@ -62,6 +65,7 @@ def profile():
         return render_template('login.html')
 
 @app.route('/plan', methods=['GET', 'POST'])
+@login_required
 def plan():
     pass
 
