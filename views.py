@@ -11,7 +11,7 @@ from models import User, LoginForm, RegistrationForm
 
 @lm.user_loader
 def load_user(id):
-    return User.get(id)
+    return User.query.get(id)
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
@@ -45,7 +45,7 @@ def login():
         if user:
             if login_user(user):
                 flash('Logged in successfully.')
-                return redirect('/<int:username>')
+                return redirect('/')
         else:
             error = 'Invalid username or password.'
     else:
@@ -61,15 +61,6 @@ def logout():
 @login_required
 def edit_profile():
     pass
-
-@app.route('/<int:username>', methods=['GET'])
-def profile():
-    if 'username' in session:
-        username = session['username']
-        return 'Logged in as ' + username + '<br>' + \
-               "<b><a href ='/logout'>click here to log out</a></b>"
-    else:
-        return render_template('login.html')
 
 @app.route('/plan', methods=['GET', 'POST'])
 @login_required
