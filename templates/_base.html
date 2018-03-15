@@ -23,8 +23,14 @@
         <li class="nav-item{% if page_id == 'register' %} active{% endif %}">
           <a class="nav-link" href="{{ url_for('register') }}">Rejestracja</a>
         </li>
-      <li class="nav-item{% if page_id == 'login' %} active{% endif %}">
-          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+      <ul class="nav navbar-nav">
+          {% if g.user.is_authenticated %}
+          <li><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
+          {% else %}
+          <li><a class="nav-link" href="{{ url_for('login')}}">Log in</a></li>
+          {% endif %}
+            {% block extra_nav %}{% endblock %}
+      </ul>
         </li>
       </ul>
     </div>
