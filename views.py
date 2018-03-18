@@ -5,14 +5,15 @@ from main import db
 from main import bcrypt
 from main import lm
 
-from flask import render_template, redirect, request, flash, Blueprint, session
-from flask.ext.login import LoginManager, login_required, logout_user, login_user, current_user
-from models import User, LoginForm, RegistrationForm
+from flask import render_template, redirect, request, flash, session, url_for
+from flask_login import login_required, logout_user, login_user, current_user
+from forms import LoginForm, RegistrationForm
+from models import User
 from flask import g
 
 @lm.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User.query.filter(User.id == user_id).first()
 
 @app.before_request
 def before_request():
@@ -20,12 +21,7 @@ def before_request():
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
-    if 'username' in session:
-        username = session['username']
-        return 'Logged in as ' + username + '<br>' + \
-               "<b><a href = '/logout'>click here to log out</a></b>"
-    else:
-        return render_template('info.html')
+    return render_template('info.html')
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -37,7 +33,7 @@ def profile():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm(request.form)
+    form = RegistrationForm()
     if request.method == 'POST' and form.validate():
         user = User(username=form.username.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
@@ -51,17 +47,18 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        form = LoginForm(request.form)
-        if form.validate():
-                login_user(form.user, remember=form.remember_me.data)
-                flash('Logged in successfully.')
-                return redirect('/')
-    else:
-        form = LoginForm()
-        return render_template('login.html', form=form)
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first_or_404()
+        if user.is_correct_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            flash('Logged in successfully.')
+            return redirect('/')
+        else:
+            return redirect('/login')
+    return render_template('login.html', form=form)
 
-@app.route('/logout', methods=['GET'])
+@app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()

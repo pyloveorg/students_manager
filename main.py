@@ -16,7 +16,7 @@ db.app = app
 db.init_app(app)
 lm = LoginManager()
 lm.init_app(app)
-bcrypt = Bcrypt()
+bcrypt = Bcrypt(app)
 
 app.static_path = path.join(path.abspath(__file__), 'static')
 

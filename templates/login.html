@@ -12,6 +12,7 @@
 {% from "_formhelpers.html" import render_field %}
 <form method=post>
   <dl>
+      {{ form.csrf_token }}
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}
   </dl>
@@ -20,7 +21,7 @@
             <input id="remember_me" name="remember_me" type="checkbox" value="y"> Remember me
         </label>
     </div>
-  <p><input type=submit value=Login>
+    <p><input type=submit value=Login></p>
 </form>
 
 
