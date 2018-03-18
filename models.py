@@ -56,14 +56,6 @@ class User(db.Model, UserMixin):
     def is_correct_password(self, plaintext_password):
         return bcrypt.check_password_hash(self.password, plaintext_password)
 
-    '''def create(self, username, password, **kwargs):
-        return User(
-            username=username,
-            password=User.make_password(self, password),
-            **kwargs
-        )
-        '''
-
     def __repr__(self):
         return "User(id={}, email={}, password={}, admin={}".format(self.id, self.email, self.password, self.admin)
 

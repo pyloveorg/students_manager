@@ -16,11 +16,7 @@
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}
   </dl>
-    <div class="checkbox">
-        <label>
-            <input id="remember_me" name="remember_me" type="checkbox" value="y"> Remember me
-        </label>
-    </div>
+    {{ form.remember_me(class="btn btn-success btn-block") }}
     <p><input type=submit value=Login></p>
 </form>
 
