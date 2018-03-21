@@ -9,7 +9,7 @@ class RegistrationForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
     #todo moc hasła
     email = EmailField('Email Address', [validators.Length(min=6, max=35), validators.Email()])
-    password = PasswordField('Password', [validators.InputRequired(),
+    password = PasswordField('Password', [validators.InputRequired(), validators.Length(min=5, max=25),
                                           validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
 
