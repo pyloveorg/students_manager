@@ -120,7 +120,12 @@ def lecture():
 @app.route('/plan', methods=['GET', 'POST'])
 @login_required
 def plan():
-    pass
+    '''
+
+    plan zajec
+
+    '''
+    return render_template('plan.html')
 
 
 
