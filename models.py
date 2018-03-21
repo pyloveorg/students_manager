@@ -1,6 +1,6 @@
 __author__ = 'Kamila Urbaniak, Paulina Gralak'
 
-import datetime
+from datetime import *
 from flask_login import UserMixin
 
 from sqlalchemy import Column
@@ -9,9 +9,7 @@ from sqlalchemy.types import String
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import DateTime
 from main import bcrypt, db
-from flask_mail import Message
-from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
-
+from hashlib import md5
 
 class User(db.Model, UserMixin):
     """
@@ -28,6 +26,8 @@ class User(db.Model, UserMixin):
     confirmed_on = db.Column(db.DateTime, nullable=True)
     password_reset_token = db.Column(db.String, nullable=True)
     registered_on = db.Column(db.DateTime, nullable=False)
+    about_me = db.Column(db.String(140))
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, username, email, password, confirmed=False, admin=False,
                  confirmed_on=None, password_reset_token=None, ):
@@ -38,7 +38,7 @@ class User(db.Model, UserMixin):
         self.confirmed = confirmed
         self.confirmed_on = confirmed_on
         self.password_reset_token = password_reset_token
-        self.registered_on = datetime.datetime.now()
+        self.registered_on = datetime.utcnow()
 
     def get_id(self):
         return self.id
@@ -66,6 +66,11 @@ class User(db.Model, UserMixin):
 
     def is_correct_password(self, plaintext_password):
         return bcrypt.check_password_hash(self.password, plaintext_password)
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
 
     def __repr__(self):
         return "User(id={}, email={}, password={}, admin={}".format(self.id, self.email, self.password, self.admin)

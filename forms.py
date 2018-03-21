@@ -1,4 +1,4 @@
-from wtforms import validators, StringField, PasswordField, BooleanField, TextField
+from wtforms import validators, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.fields.html5 import EmailField
 
 from flask_wtf import FlaskForm
@@ -42,3 +42,9 @@ class ForgotPasswordForm(FlaskForm):
             self.email.errors.append("This email is not registered")
             return False
         return True
+
+
+class EditProfileForm(FlaskForm):
+    username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
+    about_me = TextAreaField('About me', [validators.Length(min=0, max=140)])
+    submit = SubmitField('Submit')

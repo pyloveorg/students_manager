@@ -4,21 +4,24 @@ from main import app, db, lm
 
 from flask import render_template, redirect, request, flash, url_for
 from flask_login import login_required, logout_user, login_user, current_user
-from forms import LoginForm, RegistrationForm
+from forms import *
 from models import User
 from flask import g
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
+
+from datetime import *
 
 
 @lm.user_loader
 def load_user(user_id):
     return User.query.filter(User.id == user_id).first()
 
-
 @app.before_request
 def before_request():
-    g.user = current_user
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -31,9 +34,18 @@ def search():
     pass
 
 
-@app.route('/profile', methods=['GET'])
-def profile():
-    pass
+@app.route('/user', methods=['GET'])
+@login_required
+def users(username):
+    user = User.query.filter(User.username == username).first()
+    return render_template('user/profile.html', user=user)
+
+
+@app.route('/user/<string:username>', methods=['GET'])
+@login_required
+def user(username):
+    user = User.query.filter(User.username == username).first()
+    return render_template('user/profile.html', user=user)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -90,6 +102,7 @@ def unconfirmed():
     flash('Please confirm your account!', 'warning')
     return render_template('user/unconfirmed.html')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -103,6 +116,7 @@ def login():
             return redirect('register')
     return render_template('user/login.html', form=form)
 
+
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
@@ -110,10 +124,14 @@ def logout():
     flash('You have been logged out')
     return redirect('/login')
 
+
 @app.route('/edit-profile', methods=['GET'])
 @login_required
 def edit_profile():
-    pass
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        pass
+
 
 @app.route('/reset', methods=["GET", "POST"])
 def reset():
@@ -122,7 +140,6 @@ def reset():
         user = User.query.filter_by(email=form.email.data).first_or_404()
 
         subject = "Password reset requested"
-
 
 
 @app.route('/subjects', methods=['GET'])
@@ -135,6 +152,7 @@ def subjects():
     '''
     pass
 
+
 @app.route('/subjects/<string:name>', methods=['GET'])
 @login_required
 def subject():
@@ -146,6 +164,7 @@ def subject():
     '''
     pass
 
+
 @app.route('/lectures', methods=['GET'])
 @login_required
 def lectures():
@@ -155,6 +174,7 @@ def lectures():
 
     '''
     pass
+
 
 @app.route('/lectures/<string:name>', methods=['GET'])
 @login_required
@@ -167,6 +187,7 @@ def lecture():
     '''
     pass
 
+
 @app.route('/plan', methods=['GET', 'POST'])
 @login_required
 def plan():
@@ -176,6 +197,7 @@ def plan():
 
     '''
     return render_template('plan.html')
+
 
 @app.errorhandler(404)
 def page_not_found(e):
