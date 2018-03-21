@@ -1,62 +1,107 @@
 #!/usr/bin/env python
 # encoding: utf-8
-from main import app
-from main import db
-from main import bcrypt
-from main import lm
+from main import app, db, lm
 
-from flask import render_template, redirect, request, flash, session, url_for
+from flask import render_template, redirect, request, flash, url_for
 from flask_login import login_required, logout_user, login_user, current_user
 from forms import LoginForm, RegistrationForm
 from models import User
 from flask import g
+from my_email import send_email
+from tokens import generate_confirmation_token, confirm_token
+
 
 @lm.user_loader
 def load_user(user_id):
     return User.query.filter(User.id == user_id).first()
 
+
 @app.before_request
 def before_request():
     g.user = current_user
 
+
 @app.route('/', methods=['GET', 'POST'])
 def info():
-    return render_template('info.html')
+    return render_template('main/info.html')
+
 
 @app.route('/search', methods=['GET'])
 def search():
     pass
 
+
 @app.route('/profile', methods=['GET'])
 def profile():
     pass
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    if request.method == 'POST' and form.validate():
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+    if form.validate_on_submit():
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            password=form.password.data,
+            confirmed=False
+        )
         db.session.add(user)
         db.session.commit()
-        flash('Thanks for registering')
-        return redirect('/login')
-    else:
-        return render_template('register.html', form=form)
 
-#todo potwierdzenie rejestracji na mailu
+        token = generate_confirmation_token(user.email)
+        confirm_url = url_for('confirm_email', token=token, _external=True)
+        html = render_template('user/activate.html', confirm_url=confirm_url)
+        subject = "Please confirm your email"
+        send_email(user.email, subject, html)
+
+        login_user(user)
+
+        flash('A confirmation email has been sent via email.', 'success')
+        return redirect('/unconfirmed')
+
+    return render_template('user/register.html', form=form)
+
+
+@app.route('/confirm/<token>')
+@login_required
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    user = User.query.filter_by(email=email).first_or_404()
+    if user.confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        user.confirmed = True
+        db.session.add(user)
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!', 'success')
+        return redirect('/unconfirmed')
+    return redirect('/login')
+
+
+@app.route('/unconfirmed')
+@login_required
+def unconfirmed():
+    if current_user.confirmed:
+        return redirect('/')
+    flash('Please confirm your account!', 'warning')
+    return render_template('user/unconfirmed.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first_or_404()
         if user.is_correct_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Logged in successfully.')
             return redirect('/')
         else:
-            return redirect('/login')
-    return render_template('login.html', form=form)
+            return redirect('register')
+    return render_template('user/login.html', form=form)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
@@ -70,10 +115,15 @@ def logout():
 def edit_profile():
     pass
 
-@app.route('/change-password', methods=['GET', 'POST'])
-@login_required
-def change_password():
-    pass
+@app.route('/reset', methods=["GET", "POST"])
+def reset():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first_or_404()
+
+        subject = "Password reset requested"
+
+
 
 @app.route('/subjects', methods=['GET'])
 @login_required
@@ -122,9 +172,11 @@ def lecture():
 def plan():
     pass
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404
 
 
-#todo remember me
 #todo login with fb & twitter
 #todo forgot password
 #todo szukaj
