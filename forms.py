@@ -46,6 +46,8 @@ class ForgotPasswordForm(FlaskForm):
             return False
         return True
 
+    submit = SubmitField('Submit')
+
 
 class EditProfileForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
