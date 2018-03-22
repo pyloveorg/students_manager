@@ -34,14 +34,14 @@ def search():
     pass
 
 
-@app.route('/user', methods=['GET'])
+@app.route('/users', methods=['GET'])
 @login_required
 def users(username):
     user = User.query.filter(User.username == username).first()
     return render_template('user/profile.html', user=user)
 
 
-@app.route('/user/<string:username>', methods=['GET'])
+@app.route('/users/<string:username>', methods=['GET'])
 @login_required
 def user(username):
     user = User.query.filter(User.username == username).first()
@@ -93,6 +93,7 @@ def confirm_email(token):
         return redirect('/unconfirmed')
     return redirect('/login')
 
+#todo resend
 
 @app.route('/unconfirmed')
 @login_required
@@ -113,7 +114,7 @@ def login():
             flash('Logged in successfully.')
             return redirect('/')
         else:
-            return redirect('register')
+            return redirect('login')
     return render_template('user/login.html', form=form)
 
 
@@ -125,12 +126,20 @@ def logout():
     return redirect('/login')
 
 
-@app.route('/edit-profile', methods=['GET'])
+@app.route('/users/<string:username>/edit_profile', methods=['GET','POST'])
 @login_required
-def edit_profile():
+def edit_profile(username):
     form = EditProfileForm()
-    if form.validate_on_submit():
-        pass
+    if form.validate_on_submit(): #validate and request.method == 'POST'
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect('users/<string:username>/edit_profile')
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.about_me.data = current_user.about_me
+    return render_template('user/edit_profile.html', form=form)
 
 
 @app.route('/reset', methods=["GET", "POST"])
