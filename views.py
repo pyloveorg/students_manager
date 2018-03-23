@@ -217,7 +217,7 @@ def calendar():
 def return_data():
     start_date = request.args.get('start', '')
     end_date = request.args.get('end', '')
-    with open("event.json", "r") as input_data:
+    with open("events.json", "r") as input_data:
         return input_data.read()
 
 @app.errorhandler(404)
