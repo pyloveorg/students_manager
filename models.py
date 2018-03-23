@@ -22,12 +22,12 @@ class User(db.Model, UserMixin):
     email = Column(String(200), unique=True)
     password = Column(String(200), default='')
     admin = Column(Boolean, default=False)
-    confirmed = db.Column(db.Boolean, nullable=False, default=False)
-    confirmed_on = db.Column(db.DateTime, nullable=True)
-    password_reset_token = db.Column(db.String, nullable=True)
-    registered_on = db.Column(db.DateTime, nullable=False)
-    about_me = db.Column(db.String(140))
-    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    confirmed = Column(db.Boolean, nullable=False, default=False)
+    confirmed_on = Column(db.DateTime, nullable=True)
+    password_reset_token = Column(db.String, nullable=True)
+    registered_on = Column(db.DateTime, nullable=False)
+    about_me = Column(db.String(140))
+    last_seen = Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, username, email, password, confirmed=False, admin=False,
                  confirmed_on=None, password_reset_token=None, ):
