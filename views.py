@@ -219,6 +219,7 @@ def return_data():
     start_date = request.args.get('start', '')
     end_date = request.args.get('end', '')
 
+    #trzeba podać ścieżkę absolutną, bo u mnie nie działa
     with open('/Users/Kamila/PycharmProjects/students_manager/events', 'r') as file:
         data = json.load(file)
         return data
