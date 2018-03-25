@@ -17,7 +17,7 @@
     {{ render_field(form.password) }}
   </dl>
     {{ form.remember_me(class="btn btn-success btn-block") }}
-    <p><input type=submit value=Login></p>
+    <p>{{ form.submit() }}</p>
 </form>
 
 
