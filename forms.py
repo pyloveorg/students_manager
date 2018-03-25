@@ -24,9 +24,9 @@ class LoginForm(FlaskForm):
 
 
 class ChangePasswordForm(FlaskForm):
-    password = PasswordField('Password', [validators.InputRequired(), validators.Length(min=6, max=255),
+    password = PasswordField('New Password', [validators.InputRequired(), validators.Length(min=5, max=25),
                                           validators.EqualTo('confirm', message='Passwords must match')])
-    confirm = PasswordField('Repeat Password')
+    confirm = PasswordField('Repeat New Password')
 
 
 class ForgotPasswordForm(FlaskForm):
