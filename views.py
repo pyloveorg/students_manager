@@ -2,13 +2,14 @@
 # encoding: utf-8
 from main import app, db, lm
 
-from flask import render_template, redirect, request, flash, url_for
+from flask import render_template, redirect, request, flash, url_for,jsonify
 from flask_login import login_required, logout_user, login_user, current_user
 from forms import LoginForm, RegistrationForm, EditProfileForm, ChangePasswordForm
 from models import User
-from flask import g
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
+
+import json
 
 from datetime import *
 
@@ -114,6 +115,7 @@ def login():
             flash('Logged in successfully.')
             return redirect('/')
         else:
+            flash('Invalid credentials')
             return redirect('login')
     return render_template('user/login.html', form=form)
 
@@ -255,6 +257,20 @@ def plan():
     '''
     return render_template('plan.html')
 
+
+@app.route('/calendar', methods=['GET', 'POST'])
+def calendar():
+    return render_template('calendar.html', date=datetime.utcnow())
+
+@app.route('/data')
+def return_data():
+    start_date = request.args.get('start', '')
+    end_date = request.args.get('end', '')
+
+    #trzeba podać ścieżkę absolutną, bo u mnie nie działa
+    with open('/Users/Kamila/PycharmProjects/students_manager/events', 'r') as file:
+        data = json.load(file)
+        return jsonify(data)
 
 @app.errorhandler(404)
 def page_not_found(e):
