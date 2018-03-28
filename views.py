@@ -222,7 +222,7 @@ def return_data():
     #trzeba podać ścieżkę absolutną, bo u mnie nie działa
     with open('/Users/Kamila/PycharmProjects/students_manager/events', 'r') as file:
         data = json.load(file)
-        return data
+        return jsonify(data)
 
 @app.errorhandler(404)
 def page_not_found(e):
