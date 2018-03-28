@@ -4,7 +4,7 @@ from main import app, db, lm
 
 from flask import render_template, redirect, request, flash, url_for
 from flask_login import login_required, logout_user, login_user, current_user
-from forms import LoginForm, RegistrationForm, EditProfileForm
+from forms import LoginForm, RegistrationForm, EditProfileForm, ChangePasswordForm
 from models import User
 from flask import g
 from my_email import send_email
