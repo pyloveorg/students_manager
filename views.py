@@ -262,6 +262,7 @@ def plan():
 def calendar():
     return render_template('calendar.html', date=datetime.utcnow())
 
+
 @app.route('/data')
 def return_data():
     start_date = request.args.get('start', '')

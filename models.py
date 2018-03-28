@@ -24,7 +24,6 @@ class User(db.Model, UserMixin):
     admin = Column(Boolean, default=False)
     confirmed = Column(db.Boolean, nullable=False, default=False)
     confirmed_on = Column(db.DateTime, nullable=True)
-    password_reset_token = Column(db.String, nullable=True)
     registered_on = Column(db.DateTime, nullable=False)
     about_me = Column(db.String(140))
     last_seen = Column(db.DateTime, default=datetime.utcnow)
@@ -76,7 +75,26 @@ class User(db.Model, UserMixin):
         return "User(id={}, email={}, password={}, admin={}".format(self.id, self.email, self.password, self.admin)
 
 
-class Subjects(db.Model):
+class Student(db.Model):
+    id = Column(Integer, unique=True)
+    name = Column(String(25), default='')
+    surname = Column(String(25), default='')
+    year = Column(Integer)
+    group = Column(String(2), default='')
+    email = Column(String(200), unique=True)
+
+    def __init__(self, name, surname, year, group):
+        self.name = name
+        self.surname = surname
+        self.year = year
+        self.group = group
+        self.email = User.email
+
+    def __repr__(self):
+        return "Student(id={}, name={}, surname={}, year={}, group={}, email={}".format(self.id, self.name, self.surname, self.year, self.group, self.email)
+
+
+class Subject(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
     name = Column(String(25), default='')
     major = Column(String(25), default='')
