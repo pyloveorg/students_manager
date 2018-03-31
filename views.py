@@ -4,7 +4,8 @@ from main import app, db, lm
 
 from flask import render_template, redirect, request, flash, url_for,jsonify
 from flask_login import login_required, logout_user, login_user, current_user
-from forms import LoginForm, RegistrationForm, EditProfileForm, ChangePasswordForm, DeleteForm
+from forms import LoginForm, RegistrationForm, EditProfileForm, \
+    ChangePasswordForm, DeleteForm, SearchForm
 from models import User, Student
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
@@ -30,9 +31,23 @@ def info():
     return render_template('main/info.html')
 
 
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
 def search():
-    pass
+    form = SearchForm()
+    if form.validate_on_submit():
+        data = form.search.data
+        results = Student.query.whoosh_search(data).all()
+        print(str(results))
+        #return redirect('/search_results')
+    return render_template('search.html', form=form)
+
+
+# @app.route('/search_results/<query>', methods=['GET', 'POST'])
+# @login_required
+# def search_result(query):
+#     results = Student.query.whoosh_search(query).all()
+#     return render_template('search_results.html', query=query, results=results)
 
 
 @app.route('/students/', methods=['GET'])

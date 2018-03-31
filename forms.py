@@ -88,3 +88,8 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
     about_me = TextAreaField('About me', [validators.Length(min=0, max=140)])
     submit = SubmitField('Submit')
+
+
+class SearchForm(FlaskForm):
+    search = StringField('Search', [validators.InputRequired()])
+    submit = SubmitField('Submit')

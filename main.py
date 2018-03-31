@@ -2,6 +2,7 @@ __author__ = 'Kamila Urbaniak, Paulina Gralak'
 
 from os import path
 
+import flask.ext.sqlalchemy as flask_sqlalchemy
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy

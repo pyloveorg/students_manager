@@ -3,13 +3,15 @@ __author__ = 'Kamila Urbaniak, Paulina Gralak'
 from datetime import *
 from flask_login import UserMixin
 
+import flask.ext.sqlalchemy
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.types import Integer
 from sqlalchemy.types import String
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import DateTime
-from main import bcrypt, db
+from main import bcrypt, db, app
 from hashlib import md5
+import flask_whooshalchemy as wa
 from sqlalchemy.orm import relationship
 
 '''
@@ -103,6 +105,7 @@ class User(db.Model, UserMixin):
 class Student(db.Model):
 
     __tablename__ = 'student'
+    __searchable__ = ['name']
     id = Column(Integer, autoincrement=True, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     index = Column(Integer, unique=True)
@@ -134,6 +137,7 @@ class Student(db.Model):
             format(self.id, self.index, self.name, self.surname, self.year, self.faculty, self.major,
                    self.group, self.secretary)
 
+wa.whoosh_index(app, Student)
 
 # class Group(db.Model):
 #     id = Column(Integer, autoincrement=True, primary_key=True)
