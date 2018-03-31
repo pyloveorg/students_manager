@@ -193,9 +193,10 @@ def unconfirmed_password():
 @login_required
 def edit_profile(index):
     form = EditProfileForm()
+    user = User.query.join(Student).filter(Student.index == index).first()
     if form.validate_on_submit(): #validate and request.method == 'POST'
-        current_user.username = form.username.data
-        current_user.about_me = form.about_me.data
+        user.username = form.username.data
+        user.about_me = form.about_me.data
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect('students/<int:index>/edit_profile')
