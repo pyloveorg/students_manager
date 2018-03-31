@@ -24,7 +24,7 @@
       <ul class="nav navbar-nav">
           {% if current_user.is_authenticated %}
               <li><a class="nav-link" href="{{ url_for('calendar')}}">Calendar</a></li>
-              <li><a class="nav-link" href="{{ url_for('student', index=current_user.index)}}">Profile</a></li>
+              <li><a class="nav-link" href="/students/{% for i in current_user.student %}{{ i.index }} {% endfor %}">Profile</a></li>
           <li><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
           {% else %}
           <li><a class="nav-link" href="{{ url_for('login')}}">Log in</a></li>

@@ -16,18 +16,15 @@ from datetime import *
 
 @lm.user_loader
 def load_user(user_id):
-    return User.query.filter(User.id == user_id).first()
-
-# @lm.user_loader
-# def load_student(index):
-#     return User.query.filter(Student.index == index).first()
+    student = Student.query.filter(Student.user_id == user_id).first()
+    return User.query.join(Student).filter(student.user_id == user_id).first()
+    # return User.query.filter(User.id == user_id).first()
 
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
-
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
@@ -47,13 +44,11 @@ def students():
 
 
 # @app.route('/<string:faculty>/<string:major>/<string:year>/<string:group>/students/<string:index>', methods=['GET'])
-@app.route('/students/<string:index>', methods=['GET'])
+@app.route('/students/<int:index>', methods=['GET'])
 @login_required
 def student(index):
-    student = Student.query.filter(Student.index == index).first()
-    user = User.query.join(Student).filter(student.index == index).first()
-
-    return render_template('user/profile.html', user=user, student=student)
+    st = Student.query.filter(Student.index == index).first()
+    return render_template('user/profile.html', user=current_user, student=st)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -191,7 +186,7 @@ def unconfirmed_password():
     return redirect('/')
 
 
-@app.route('/s/<string:username>/edit_profile', methods=['GET','POST'])
+@app.route('/students/<string:index>/edit_profile', methods=['GET','POST'])
 @login_required
 def edit_profile(username):
     form = EditProfileForm()

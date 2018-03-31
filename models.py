@@ -49,8 +49,7 @@ class User(db.Model, UserMixin):
     registered_on = Column(db.DateTime, nullable=False)
     about_me = Column(String(140))
     last_seen = Column(DateTime, default=datetime.utcnow)
-    student = db.relationship('Student', backref='user')
-                              #primaryjoin="User.id ==Student.user_id")
+    student = db.relationship('Student', backref='user', primaryjoin="User.id ==Student.user_id")
 
     def __init__(self, username, email, password, student, confirmed=False, admin=False,
                  confirmed_on=None, password_reset_token=None):
@@ -106,7 +105,7 @@ class Student(db.Model):
     __tablename__ = 'student'
     id = Column(Integer, autoincrement=True, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    index = Column(String(8), unique=True)
+    index = Column(Integer, unique=True)
     name = Column(String(25), default='')
     surname = Column(String(25), default='')
     year = Column(String(1), default='')
