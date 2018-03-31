@@ -34,6 +34,7 @@ def info():
 def search():
     pass
 
+
 @app.route('/students/', methods=['GET'])
 @login_required
 def students():
@@ -161,6 +162,7 @@ def change_password():
         return redirect('/unconfirmed-password')
     return render_template('user/change_password.html', form=form)
 
+
 @app.route('/confirm-pasword/<token>')
 @login_required
 def confirm_password(token):
@@ -175,6 +177,7 @@ def confirm_password(token):
     flash('Your password has been changed successfully.')
     return redirect('/')
 
+
 @app.route('/unconfirmed-password')
 @login_required
 def unconfirmed_password():
@@ -184,6 +187,7 @@ def unconfirmed_password():
         flash('Please confirm your account!', 'warning')
         return render_template('user/unconfirmed_password.html')
     return redirect('/')
+
 
 @app.route('/students/<int:index>/edit_profile', methods=['GET','POST'])
 @login_required
@@ -200,6 +204,7 @@ def edit_profile(index):
         form.about_me.data = current_user.about_me
     return render_template('user/edit_profile.html', form=form)
 
+
 @app.route('/students/<int:index>/delete_account', methods=['GET','POST'])
 @login_required
 def delete_account(index):
@@ -215,15 +220,6 @@ def delete_account(index):
             db.session.commit()
             return redirect('/')
     return render_template('user/delete_account.html', form=form)
-
-
-@app.route('/reset', methods=["GET", "POST"])
-def reset():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first_or_404()
-
-        subject = "Password reset requested"
 
 
 @app.route('/subjects', methods=['GET'])
