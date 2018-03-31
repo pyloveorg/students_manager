@@ -4,10 +4,11 @@ from main import app, db, lm
 
 from flask import render_template, redirect, request, flash, url_for,jsonify
 from flask_login import login_required, logout_user, login_user, current_user
-from forms import LoginForm, RegistrationForm, EditProfileForm, ChangePasswordForm
+from forms import LoginForm, RegistrationForm, EditProfileForm, ChangePasswordForm, DeleteForm
 from models import User, Student
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
+from main import bcrypt
 
 import json
 
@@ -26,7 +27,6 @@ def before_request():
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
-    print(current_user)
     return render_template('main/info.html')
 
 
@@ -175,7 +175,6 @@ def confirm_password(token):
     flash('Your password has been changed successfully.')
     return redirect('/')
 
-
 @app.route('/unconfirmed-password')
 @login_required
 def unconfirmed_password():
@@ -201,13 +200,21 @@ def edit_profile(index):
         form.about_me.data = current_user.about_me
     return render_template('user/edit_profile.html', form=form)
 
-@app.route('/students/<int:index>/delete_profile', methods=['GET','POST'])
+@app.route('/students/<int:index>/delete_account', methods=['GET','POST'])
 @login_required
-def delete_profile(index):
-    flash('Are you sure?')
-    logout_user()
-
-    return redirect('/')
+def delete_account(index):
+    form = DeleteForm()
+    if form.validate_on_submit():
+        password = form.password.data
+        user = User.query.join(Student).filter(Student.index == index).first()
+        student = Student.query.join(User).filter(user.id == Student.user_id).first()
+        if bcrypt.check_password_hash(user.password, password) is True:
+            logout_user()
+            db.session.delete(user)
+            db.session.delete(student)
+            db.session.commit()
+            return redirect('/')
+    return render_template('user/delete_account.html', form=form)
 
 
 @app.route('/reset', methods=["GET", "POST"])

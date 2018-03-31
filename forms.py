@@ -51,6 +51,11 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me', default=True)
     submit = SubmitField('Submit')
 
+
+class DeleteForm(FlaskForm):
+    password = PasswordField('Password', [validators.InputRequired(), validators.Length(min=5, max=25)])
+    submit = SubmitField('Submit')
+
 #todo login przez username lub email
 
 
