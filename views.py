@@ -5,7 +5,7 @@ from main import app, db, lm
 from flask import render_template, redirect, request, flash, url_for,jsonify
 from flask_login import login_required, logout_user, login_user, current_user
 from forms import LoginForm, RegistrationForm, EditProfileForm, ChangePasswordForm
-from models import User
+from models import User, Student
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
 
@@ -17,6 +17,10 @@ from datetime import *
 @lm.user_loader
 def load_user(user_id):
     return User.query.filter(User.id == user_id).first()
+
+# @lm.user_loader
+# def load_student(index):
+#     return User.query.filter(Student.index == index).first()
 
 @app.before_request
 def before_request():
@@ -35,29 +39,42 @@ def search():
     pass
 
 
-@app.route('/users', methods=['GET'])
+@app.route('/<string:faculty>/<string:major>/<string:year>/<string:group>/students', methods=['GET'])
 @login_required
-def users(username):
-    user = User.query.filter(User.username == username).first()
-    return render_template('user/profile.html', user=user)
+def students():
+    #user = User.query.get()
+    return render_template('user/students.html')
 
 
-@app.route('/users/<string:username>', methods=['GET'])
+# @app.route('/<string:faculty>/<string:major>/<string:year>/<string:group>/students/<string:index>', methods=['GET'])
+@app.route('/students/<string:index>', methods=['GET'])
 @login_required
-def user(username):
-    user = User.query.filter(User.username == username).first()
-    return render_template('user/profile.html', user=user)
+def student(index):
+    student = Student.query.filter(Student.index == index).first()
+    user = User.query.join(Student).filter(student.index == index).first()
+
+    return render_template('user/profile.html', user=user, student=student)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        st = Student(
+                index=form.index.data,
+                name=form.name.data,
+                surname=form.surname.data,
+                faculty=form.faculty.data,
+                major=form.major.data,
+                year=form.year.data,
+                group=form.group.data
+        )
         user = User(
             username=form.username.data,
             email=form.email.data,
             password=form.password.data,
-            confirmed=False
+            confirmed=False,
+            student=[st]
         )
         db.session.add(user)
         db.session.commit()
@@ -174,9 +191,7 @@ def unconfirmed_password():
     return redirect('/')
 
 
-@app.route('/edit-profile', methods=['GET'])
-
-@app.route('/users/<string:username>/edit_profile', methods=['GET','POST'])
+@app.route('/s/<string:username>/edit_profile', methods=['GET','POST'])
 @login_required
 def edit_profile(username):
     form = EditProfileForm()
@@ -224,7 +239,7 @@ def subject():
     pass
 
 
-@app.route('/lectures', methods=['GET'])
+@app.route('/<int:year>/<string:group>/lectures', methods=['GET'])
 @login_required
 def lectures():
     '''
@@ -247,7 +262,7 @@ def lecture():
     pass
 
 
-@app.route('/plan', methods=['GET', 'POST'])
+@app.route('/<int:year>/<string:group>/plan', methods=['GET', 'POST'])
 @login_required
 def plan():
     '''
@@ -272,6 +287,7 @@ def return_data():
     with open('/Users/Kamila/PycharmProjects/students_manager/events', 'r') as file:
         data = json.load(file)
         return jsonify(data)
+
 
 @app.errorhandler(404)
 def page_not_found(e):

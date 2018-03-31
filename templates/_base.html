@@ -20,13 +20,11 @@
         <li class="nav-item{% if page_id == 'info' %} active{% endif %}">
           <a class="nav-link" href="{{ url_for('info') }}">Info</a>
         </li>
-        <li class="nav-item{% if page_id == 'register' %} active{% endif %}">
-          <a class="nav-link" href="{{ url_for('register') }}">Register</a>
         </li>
       <ul class="nav navbar-nav">
           {% if current_user.is_authenticated %}
-               <li><a class="nav-link" href="/users/{{current_user.username}}">Profile</a></li>
               <li><a class="nav-link" href="{{ url_for('calendar')}}">Calendar</a></li>
+              <li><a class="nav-link" href="{{ url_for('student', index=current_user.index)}}">Profile</a></li>
           <li><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
           {% else %}
           <li><a class="nav-link" href="{{ url_for('login')}}">Log in</a></li>

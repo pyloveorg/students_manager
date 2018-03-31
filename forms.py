@@ -13,6 +13,13 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', [validators.InputRequired(), validators.Length(min=5, max=25),
                                           validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
+    index = StringField('Index', [validators.Length(min=1, max=8), validators.InputRequired()])
+    name = StringField('Name', [validators.Length(min=5, max=25), validators.InputRequired()])
+    surname = StringField('Surname', [validators.Length(min=5, max=25), validators.InputRequired()])
+    faculty = StringField('Faculty',  [validators.Length(min=5, max=25), validators.InputRequired()])
+    major = StringField('Major',  [validators.Length(min=5, max=25), validators.InputRequired()])
+    year = StringField('Year', [validators.InputRequired()])
+    group = StringField('Group', [validators.Length(min=1, max=6), validators.InputRequired()])
     submit = SubmitField('Submit')
 
 

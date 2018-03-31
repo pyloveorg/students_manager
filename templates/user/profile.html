@@ -6,6 +6,12 @@
             <br>
             <img src="{{ user.avatar(128) }}">
             <h1>{{ user.username }}</h1>
+            <p> Index: {{ student.index }}</p>
+            <p> Name: {{ student.name }}</p>
+            <p> Surname: {{ student.surname }}</p>
+            <p> Faculty: {{ student.faculty }}</p>
+            <p> Major: {{ student.major }}</p>
+            <p> Year: {{ student.year }}</p>
             <h2><a class="u-email" href="mailto:<user.email>">{{ user.email }}</a></h2>
             {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
                 {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}
