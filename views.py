@@ -16,9 +16,7 @@ from datetime import *
 
 @lm.user_loader
 def load_user(user_id):
-    student = Student.query.filter(Student.user_id == user_id).first()
-    return User.query.join(Student).filter(student.user_id == user_id).first()
-    # return User.query.filter(User.id == user_id).first()
+    return User.query.filter(User.id == user_id).first()
 
 @app.before_request
 def before_request():
@@ -28,6 +26,7 @@ def before_request():
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
+    print(current_user)
     return render_template('main/info.html')
 
 
@@ -35,15 +34,16 @@ def info():
 def search():
     pass
 
-
-@app.route('/<string:faculty>/<string:major>/<string:year>/<string:group>/students', methods=['GET'])
+@app.route('/students/', methods=['GET'])
 @login_required
 def students():
-    #user = User.query.get()
-    return render_template('user/students.html')
+    temp = current_user.student
+    for i in temp:
+        fc = i.faculty
+    students = Student.query.filter(Student.faculty == fc).all()
+    return render_template('user/students.html', students=students)
 
 
-# @app.route('/<string:faculty>/<string:major>/<string:year>/<string:group>/students/<string:index>', methods=['GET'])
 @app.route('/students/<int:index>', methods=['GET'])
 @login_required
 def student(index):
@@ -135,6 +135,7 @@ def login():
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
+    current_user.active=False
     logout_user()
     flash('You have been logged out')
     return redirect('/login')
@@ -185,21 +186,28 @@ def unconfirmed_password():
         return render_template('user/unconfirmed_password.html')
     return redirect('/')
 
-
-@app.route('/students/<string:index>/edit_profile', methods=['GET','POST'])
+@app.route('/students/<int:index>/edit_profile', methods=['GET','POST'])
 @login_required
-def edit_profile(username):
+def edit_profile(index):
     form = EditProfileForm()
     if form.validate_on_submit(): #validate and request.method == 'POST'
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         db.session.commit()
         flash('Your changes have been saved.')
-        return redirect('users/<string:username>/edit_profile')
+        return redirect('students/<int:index>/edit_profile')
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template('user/edit_profile.html', form=form)
+
+@app.route('/students/<int:index>/delete_profile', methods=['GET','POST'])
+@login_required
+def delete_profile(index):
+    flash('Are you sure?')
+    logout_user()
+
+    return redirect('/')
 
 
 @app.route('/reset', methods=["GET", "POST"])

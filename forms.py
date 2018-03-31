@@ -1,10 +1,31 @@
-from wtforms import validators, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import validators, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.fields.html5 import EmailField
 
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from models import User
 
+FACULTY = [
+    ('Wydział Architektury', 'Wydział Architektury'),
+    ('Wydział Budownictwa i Inżynierii Środowiska', 'Wydział Budownictwa i Inżynierii Środowiska'),
+    ('Wydział Budowy Maszyn i Zarządzania','Wydział Budowy Maszyn i Zarządzania'),
+]
+
+MAJOR = {
+    'Wydział Architektury' :
+        [('ar','Architektura')],
+    'Wydział Budownictwa i Inżynierii Środowiska':
+        [('bd','Budownictwo'), ('is','Inżynieria Środowiska')],
+    'Wydział Budowy Maszyn i Zarządzania':
+        [('ib','Inżynieria Biomedyczna'), ('im','Inżynieria Materiałowa')]
+}
+
+YEAR = [
+    ('1','1'), ('2','2'), ('3','3'), ('4','4')
+]
+
+# print(FACULTY[0][1])
+# print(MAJOR[FACULTY[0][0]])
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
@@ -14,11 +35,12 @@ class RegistrationForm(FlaskForm):
                                           validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
     index = StringField('Index', [validators.Length(min=1, max=8), validators.InputRequired()])
-    name = StringField('Name', [validators.Length(min=5, max=25), validators.InputRequired()])
-    surname = StringField('Surname', [validators.Length(min=5, max=25), validators.InputRequired()])
-    faculty = StringField('Faculty',  [validators.Length(min=5, max=25), validators.InputRequired()])
-    major = StringField('Major',  [validators.Length(min=5, max=25), validators.InputRequired()])
-    year = StringField('Year', [validators.InputRequired()])
+    name = StringField('Name', [validators.Length(min=3, max=25), validators.InputRequired()])
+    surname = StringField('Surname', [validators.Length(min=3, max=25), validators.InputRequired()])
+    faculty = SelectField('Faculty', choices=FACULTY)
+    #todo wybor kierunku w zaleznosci od wydziału - chyba w js
+    major = SelectField('Major', choices=MAJOR[FACULTY[0][0]])
+    year = SelectField('Year', choices=YEAR)
     group = StringField('Group', [validators.Length(min=1, max=6), validators.InputRequired()])
     submit = SubmitField('Submit')
 
