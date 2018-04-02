@@ -13,6 +13,6 @@
             {{ form.about_me(cols=50, rows=4) }}<br>
         </p>
         <p>{{ form.submit() }}</p>
-        <p><button><a href="{{ url_for('student', index=current_user.student.index)}}">Back</a></button></p>
+        <p><button><a href="{{ url_for('students', id=user.student.index)}}">Back</a></button></p>
     </form>
 {% endblock %}
