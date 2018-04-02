@@ -27,39 +27,42 @@ def search():
 #     results = Student.query.whoosh_search(query).all()
 #     return render_template('search_results.html', query=query, results=results)
 
-
+# wszyscy studenci z danego wydziału i kierunku
+# todo nawiązywanie kontaktu z danym studentem - mail lub chat
 @app.route('/students/', methods=['GET'])
 @login_required
 def students():
     students = Student.query.filter(Student.faculty == current_user.student.faculty).all()
-    return render_template('user/students.html', students=students)
+    return render_template('faculty/students/students.html', students=students)
 
 
-@app.route('/students/<int:index>', methods=['GET'])
+# profil danego studenta
+@app.route('/students/<int:id>', methods=['GET'])
 @login_required
-def student(index):
-    st = Student.query.filter(Student.index == index).first()
-    return render_template('user/profile.html', user=current_user, student=st)
+def student(id):
+    # todo zmienić na user a nie current_user
+    return render_template('faculty/students/profile.html')
 
-
-@app.route('/students/<int:index>/edit_profile', methods=['GET','POST'])
+# zmiana własnego profilu
+@app.route('/students/<int:id>/edit_profile', methods=['GET','POST'])
 @login_required
-def edit_profile(index):
+def edit_profile(id):
     form = EditProfileForm()
-    user = User.query.join(Student).filter(Student.index == index).first()
+    user = User.query.join(Student).filter(Student.id == id).first()
     if form.validate_on_submit(): #validate and request.method == 'POST'
         user.username = form.username.data
         user.about_me = form.about_me.data
+        user.student.faculty = form.faculty.data
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect('students/<int:index>/edit_profile')
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
-    return render_template('user/edit_profile.html', form=form)
+    return render_template('faculty/students/edit_profile.html', form=form)
 
-
-@app.route('/students/<int:index>/delete_account', methods=['GET','POST'])
+# usunięcie własnego konta
+@app.route('/students/<int:id>/delete_account', methods=['GET','POST'])
 @login_required
 def delete_account(index):
     form = DeleteForm()
@@ -75,17 +78,6 @@ def delete_account(index):
             db.session.commit()
             return redirect('/')
     return render_template('user/delete_account.html', form=form)
-
-
-@app.route('/plan', methods=['GET', 'POST'])
-@login_required
-def plan():
-    '''
-
-    plan zajec
-
-    '''
-    return render_template('plan.html')
 
 
 #todo login with fb & twitter

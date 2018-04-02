@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <table>
+        <tr valign="top">
+        <br>
+            {% for m in majors %}
+                <ol>
+                    <li>{{ m.name }}</li>
+                </ol>
+            {% endfor %}
+
+        </tr>
+    </table>
+    <hr>
+{% endblock %}
+

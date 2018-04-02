@@ -3,7 +3,6 @@ __author__ = 'Kamila Urbaniak, Paulina Gralak'
 from datetime import *
 from flask_login import UserMixin
 
-import flask.ext.sqlalchemy
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.types import Integer
 from sqlalchemy.types import String
@@ -12,7 +11,8 @@ from sqlalchemy.types import DateTime
 from main import bcrypt, db, app
 from hashlib import md5
 import flask_whooshalchemy as wa
-from sqlalchemy.orm import relationship
+from flask_admin.contrib.sqla import ModelView
+from main import admin
 
 '''
 konto admina:
@@ -35,7 +35,6 @@ konto starosty grupy:
     tworzenie wydarzen oraz ankiet
     wysyłanie informacji do studentów
 '''
-
 
 class User(db.Model, UserMixin):
 
@@ -250,3 +249,11 @@ class Lecture(db.Model):
     def __repr__(self):
         return "Lecture(id={}, name={}, surname={}, consult={}".\
             format(self.id, self.name, self.surname, self.consult)
+
+
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Student, db.session))
+admin.add_view(ModelView(Faculty, db.session))
+admin.add_view(ModelView(Major, db.session))
+admin.add_view(ModelView(Year, db.session))
+admin.add_view(ModelView(Subject, db.session))

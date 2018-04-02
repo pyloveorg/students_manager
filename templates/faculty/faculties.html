@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <table>
+        <tr valign="top">
+        <br>
+            {% for faculty in faculties %}
+                <ol>
+                    <li>{{ faculty.name }}</li>
+                </ol>
+            {% endfor %}
+
+        </tr>
+    </table>
+    <hr>
+{% endblock %}
+

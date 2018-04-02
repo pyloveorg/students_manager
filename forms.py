@@ -31,6 +31,8 @@ GROUP = [
 # print(FACULTY[0][1])
 # print(MAJOR[FACULTY[0][0]])
 
+#todo choices musi być z modeli w bazie
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
@@ -92,6 +94,9 @@ class ForgotPasswordForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
     about_me = TextAreaField('About me', [validators.Length(min=0, max=140)])
+    # faculty
+    # major
+    # todo if user is not in faculty-major database
     submit = SubmitField('Submit')
 
 

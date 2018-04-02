@@ -6,7 +6,6 @@ from forms import LoginForm, RegistrationForm, ChangePasswordForm
 from models import User, Student, Faculty, Major, Year
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
-from main import bcrypt
 
 import json
 
@@ -174,11 +173,9 @@ def unconfirmed_password():
 def calendar():
     return render_template('calendar.html', date=datetime.utcnow())
 
+
 @app.route('/data')
 def return_data():
-    start_date = request.args.get('start', '')
-    end_date = request.args.get('end', '')
-
     #trzeba podać ścieżkę absolutną, bo u mnie nie działa
     with open('/Users/Kamila/PycharmProjects/students_manager/events', 'r') as file:
         data = json.load(file)

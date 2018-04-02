@@ -27,6 +27,7 @@
               <li><a class="nav-link" href="{{ url_for('calendar')}}">Calendar</a></li>
               <li><a class="nav-link" href="{{ url_for('students')}}">Students</a></li>
               <li><a class="nav-link" href="{{ url_for('student', index=current_user.student.index)}}">Profile</a></li>
+              <li><a class="nav-link" href="{{ url_for('faculty')}}">Faculties</a></li>
           <li><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
           {% else %}
           <li><a class="nav-link" href="{{ url_for('login')}}">Log in</a></li>
