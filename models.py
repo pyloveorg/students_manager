@@ -40,6 +40,7 @@ konto starosty grupy:
 class User(db.Model, UserMixin):
 
     __tablename__ = 'user'
+    __searchable__ = ['username']
     id = Column(Integer, autoincrement=True, primary_key=True)
     username = Column(String(25), default='', unique=True)
     active = Column(Boolean, default=True)
@@ -51,7 +52,7 @@ class User(db.Model, UserMixin):
     registered_on = Column(db.DateTime, nullable=False)
     about_me = Column(String(140))
     last_seen = Column(DateTime, default=datetime.utcnow)
-    student = db.relationship('Student', backref='user', primaryjoin="User.id ==Student.user_id")
+    student = db.relationship('Student', backref='user', primaryjoin="User.id ==Student.user_id", uselist=False)
 
     def __init__(self, username, email, password, student, confirmed=False, admin=False,
                  confirmed_on=None, password_reset_token=None):
@@ -105,27 +106,21 @@ class User(db.Model, UserMixin):
 class Student(db.Model):
 
     __tablename__ = 'student'
-    __searchable__ = ['name']
+    __searchable__ = ['index']
     id = Column(Integer, autoincrement=True, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     index = Column(Integer, unique=True)
     name = Column(String(25), default='')
     surname = Column(String(25), default='')
     year = Column(String(1), default='')
-    faculty = Column(String(25), default='')
-    major = Column(String(25), default='')
-    group = Column(String(2), default='')
+    faculty = db.relationship('Faculty', backref='student', primaryjoin="Student.id == Faculty.student_id", uselist=False)
     secretary = Column(Boolean, default=False)
 
-
-    def __init__(self, index, name, surname, faculty, major, year, group, secretary=False):
+    def __init__(self, index, name, surname, faculty, secretary=False):
         self.index = index
         self.name = name
         self.surname = surname
         self.faculty = faculty
-        self.major = major
-        self.year = year
-        self.group = group
         self.secretary = secretary
 
     def is_secretary(self):
@@ -133,35 +128,100 @@ class Student(db.Model):
         return self.secretary
 
     def __repr__(self):
-        return "Student(id={}, index={}, name={}, surname={}, faculty={}, major={}, year={}, group={}, secretarty={}".\
-            format(self.id, self.index, self.name, self.surname, self.year, self.faculty, self.major,
-                   self.group, self.secretary)
+        return "Student(id={}, index={}, name={}, surname={}, faculty={}".\
+            format(self.id, self.index, self.name, self.surname, self.year, self.faculty)
 
 wa.whoosh_index(app, Student)
 
-# class Group(db.Model):
-#     id = Column(Integer, autoincrement=True, primary_key=True)
-#     group = Column(String(2), default='')
-#     year = Column(Integer)
-#     secretary = Student.secretary
-#
-#     def __init__(self, group, year, secretary):
-#         self.group = Student.group
-#         self.year = year
-#         self.secretary = secretary
-#
-#     def __repr__(self):
-#         return "Group(id={}, group={}, year={}, secretarty={}".\
-#             format(self.id, self.group, self.year, self.secretary)
+
+class Faculty(db.Model):
+
+    __tablename__ = 'faculty'
+    __searchable__ = ['name']
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(String(25), default='')
+    major = db.relationship('Major', backref='faculty', primaryjoin="Faculty.id == Major.faculty_id", uselist=False)
+    student_id = Column(Integer, ForeignKey('student.id'))
+
+    def __init__(self, name, major):
+        self.name = name
+        self.major = major
+
+    def __repr__(self):
+        return "Faculty(id={}, name={}, major={}".\
+            format(self.id, self.name, self.major)
+
+
+class Major(db.Model):
+
+    __tablename__ = 'major'
+    __searchable__ = ['name']
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(String(25), default='')
+    year = db.relationship('Year', backref='major', primaryjoin="Major.id == Year.major_id", uselist=False)
+    faculty_id = Column(Integer, ForeignKey('faculty.id'))
+
+    def __init__(self, name, year):
+        self.name = name
+        self.year = year
+
+    def __repr__(self):
+        return "Major(id={}, name={}, year={}".\
+            format(self.id, self.name, self.year)
+
+
+class Year(db.Model):
+
+    __tablename__ = 'year'
+    __searchable__ = ['subject']
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    nr = Column(String(2), default='')
+    group = Column(String(2))
+    #secretary = db.relationship('Secretary', backref='year', primaryjoin="Year.id == Secretary.year_id", uselist=False)
+    #subject = db.relationship('Subject', backref='year', primaryjoin="Year.id == Subject.year_id", uselist=False)
+    major_id = Column(Integer, ForeignKey('major.id'))
+
+    # def __init__(self, year, group, secretary='', subject=''):
+    def __init__(self, nr, group):
+        self.nr = nr
+        self.group = group
+        # self.secretary = secretary
+        # self.subject = subject
+
+    def __repr__(self):
+        return "Year(id={},nr={}, group={}". \
+            format(self.id, self.nr, self.group)
+            #format(self.id, self.group, self.secretary, self.subject)
+
+
+class Secretary(db.Model):
+
+    __tablename__ = 'secretary'
+    __searchable__ = ['name', 'surname']
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(String(25), default='')
+    surname = Column(String(25), default='')
+    email = Column(String(200))
+    year_id = Column(Integer, ForeignKey('year.id'))
+
+    def __init__(self, name, surname, email):
+        self.name = name
+        self.surname = surname
+        self.email = email
+
+    def __repr__(self):
+        return "Secretary(id={}, name={}, surname={}, email={}, ".\
+            format(self.id, self.name, self.surname, self.email)
 
 
 class Subject(db.Model):
 
     __tablename__ = 'subject'
+    __searchable__ = ['name', 'lecture']
     id = Column(Integer, autoincrement=True, primary_key=True)
     name = Column(String(25), default='')
-    faculty = Column(String(25), default='')
-    major = Column(String(25), default='')
+    lecture = db.relationship('Lecture', backref='subject', primaryjoin="Subject.id == Lecture.subject_id")
+    year_id =  Column(Integer, ForeignKey('year.id'))
 
     def __init__(self, name, faculty, major):
         self.name = name
@@ -169,8 +229,8 @@ class Subject(db.Model):
         self.major = major
 
     def __repr__(self):
-        return "Subject(id={}, name={}, faculty={}, major={}".\
-            format(self.id, self.name, self.faculty, self.major)
+        return "Subject(id={}, name={}, lecture={}".\
+            format(self.id, self.name, self.lecture)
 
 
 class Lecture(db.Model):
@@ -180,6 +240,7 @@ class Lecture(db.Model):
     name = Column(String(25), default='')
     surname = Column(String(25), default='')
     consult = Column(DateTime)
+    subject_id = Column(Integer, ForeignKey('subject.id'))
 
     def __init__(self, name, surname, consult):
         self.name = name

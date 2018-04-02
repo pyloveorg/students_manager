@@ -1,12 +1,9 @@
-#!/usr/bin/env python
-# encoding: utf-8
 from main import app, db, lm
 
 from flask import render_template, redirect, request, flash, url_for,jsonify
 from flask_login import login_required, logout_user, login_user, current_user
-from forms import LoginForm, RegistrationForm, EditProfileForm, \
-    ChangePasswordForm, DeleteForm, SearchForm
-from models import User, Student
+from forms import LoginForm, RegistrationForm, ChangePasswordForm
+from models import User, Student, Faculty, Major, Year
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
 from main import bcrypt
@@ -15,10 +12,10 @@ import json
 
 from datetime import *
 
-
 @lm.user_loader
 def load_user(user_id):
     return User.query.filter(User.id == user_id).first()
+
 
 @app.before_request
 def before_request():
@@ -26,66 +23,36 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
 
+
 @app.route('/', methods=['GET', 'POST'])
 def info():
     return render_template('main/info.html')
-
-
-@app.route('/search', methods=['GET', 'POST'])
-@login_required
-def search():
-    form = SearchForm()
-    if form.validate_on_submit():
-        data = form.search.data
-        results = Student.query.whoosh_search(data).all()
-        print(str(results))
-        #return redirect('/search_results')
-    return render_template('search.html', form=form)
-
-
-# @app.route('/search_results/<query>', methods=['GET', 'POST'])
-# @login_required
-# def search_result(query):
-#     results = Student.query.whoosh_search(query).all()
-#     return render_template('search_results.html', query=query, results=results)
-
-
-@app.route('/students/', methods=['GET'])
-@login_required
-def students():
-    temp = current_user.student
-    for i in temp:
-        fc = i.faculty
-    students = Student.query.filter(Student.faculty == fc).all()
-    return render_template('user/students.html', students=students)
-
-
-@app.route('/students/<int:index>', methods=['GET'])
-@login_required
-def student(index):
-    st = Student.query.filter(Student.index == index).first()
-    return render_template('user/profile.html', user=current_user, student=st)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        st = Student(
-                index=form.index.data,
-                name=form.name.data,
-                surname=form.surname.data,
-                faculty=form.faculty.data,
-                major=form.major.data,
-                year=form.year.data,
-                group=form.group.data
-        )
         user = User(
             username=form.username.data,
             email=form.email.data,
             password=form.password.data,
             confirmed=False,
-            student=[st]
+            student=Student(
+                index=form.index.data,
+                name=form.name.data,
+                surname=form.surname.data,
+                faculty=Faculty(
+                    name=form.faculty.data,
+                    major=Major(
+                        name=form.major.data,
+                        year=Year(
+                            nr=form.year.data,
+                            group=form.group.data
+                        )
+                    )
+            )
+        )
         )
         db.session.add(user)
         db.session.commit()
@@ -131,7 +98,6 @@ def unconfirmed():
         return redirect('/')
     flash('Please confirm your account!', 'warning')
     return render_template('user/unconfirmed.html')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -204,101 +170,9 @@ def unconfirmed_password():
     return redirect('/')
 
 
-@app.route('/students/<int:index>/edit_profile', methods=['GET','POST'])
-@login_required
-def edit_profile(index):
-    form = EditProfileForm()
-    user = User.query.join(Student).filter(Student.index == index).first()
-    if form.validate_on_submit(): #validate and request.method == 'POST'
-        user.username = form.username.data
-        user.about_me = form.about_me.data
-        db.session.commit()
-        flash('Your changes have been saved.')
-        return redirect('students/<int:index>/edit_profile')
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.about_me.data = current_user.about_me
-    return render_template('user/edit_profile.html', form=form)
-
-
-@app.route('/students/<int:index>/delete_account', methods=['GET','POST'])
-@login_required
-def delete_account(index):
-    form = DeleteForm()
-    if form.validate_on_submit():
-        password = form.password.data
-        user = User.query.join(Student).filter(Student.index == index).first()
-        student = Student.query.join(User).filter(user.id == Student.user_id).first()
-        if bcrypt.check_password_hash(user.password, password) is True:
-            logout_user()
-            db.session.delete(user)
-            db.session.delete(student)
-            db.session.commit()
-            return redirect('/')
-    return render_template('user/delete_account.html', form=form)
-
-
-@app.route('/subjects', methods=['GET'])
-@login_required
-def subjects():
-    '''
-
-    lista wszystkich przedmiotow odpowiednia dla danego studenta kierunku i roku
-
-    '''
-    pass
-
-
-@app.route('/subjects/<string:name>', methods=['GET'])
-@login_required
-def subject():
-    '''
-
-    info o danym przedmiocie:
-        prowadzący w zależności od grupy laboratoryjnej
-        dni kiedy odbywają się zajęcia
-    '''
-    pass
-
-
-@app.route('/<int:year>/<string:group>/lectures', methods=['GET'])
-@login_required
-def lectures():
-    '''
-
-    lista wszystkich prowadzących odpowiednich dla danego studenta kierunku i roku
-
-    '''
-    pass
-
-
-@app.route('/lectures/<string:name>', methods=['GET'])
-@login_required
-def lecture():
-    '''
-
-    info o danym prowadzącym
-        dzien i miejsce konsultacji
-
-    '''
-    pass
-
-
-@app.route('/<int:year>/<string:group>/plan', methods=['GET', 'POST'])
-@login_required
-def plan():
-    '''
-
-    plan zajec
-
-    '''
-    return render_template('plan.html')
-
-
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
     return render_template('calendar.html', date=datetime.utcnow())
-
 
 @app.route('/data')
 def return_data():
@@ -314,9 +188,3 @@ def return_data():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404
-
-
-#todo login with fb & twitter
-#todo forgot password
-#todo szukaj
-#todo chat

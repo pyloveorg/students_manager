@@ -39,6 +39,10 @@ ts = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 app.static_path = path.join(path.abspath(__file__), 'static')
 
 if __name__ == '__main__':
-    from views import *
+    from students import *
+    from lectures import *
+    from students import *
+    from subjects import *
+    from user import *
     app.secret_key = "super secret key"
     app.run(debug=True, port=5000)

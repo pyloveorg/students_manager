@@ -9,15 +9,15 @@
             <p> Index: {{ student.index }}</p>
             <p> Name: {{ student.name }}</p>
             <p> Surname: {{ student.surname }}</p>
-            <p> Faculty: {{ student.faculty }}</p>
-            <p> Major: {{ student.major }}</p>
-            <p> Year: {{ student.year }}</p>
+            <p> Faculty: {{ student.faculty.name }}</p>
+            <p> Major: {{ student.faculty.major.name }}</p>
+            <p> Year: {{ student.faculty.major.year.nr }}</p>
             <h2><a class="u-email" href="mailto:{{ user.email }}">{{ user.email }}</a></h2>
             {% if user.about_me %}<p>About me: {{ user.about_me }}</p>{% endif %}
                 {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}
         {% if user == current_user %}
-                <p><a href="{% for i in current_user.student %}{{ url_for('edit_profile', index=i.index)}}{% endfor %}">Edit your profile</a></p>
-                <p><a href="{% for i in current_user.student %}{{ url_for('delete_account', index=i.index)}}{% endfor %}">Delete your account</a></p>
+                <p><a href="{{ url_for('edit_profile', index=current_user.student.index)}}">Edit your profile</a></p>
+                <p><a href="{{ url_for('delete_account', index=current_user.student.index)}}">Delete your account</a></p>
                 {% endif %}
 
         </tr>

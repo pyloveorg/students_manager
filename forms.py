@@ -13,19 +13,24 @@ FACULTY = [
 
 MAJOR = {
     'Wydział Architektury' :
-        [('ar','Architektura')],
+        [('Architektura','Architektura')],
     'Wydział Budownictwa i Inżynierii Środowiska':
-        [('bd','Budownictwo'), ('is','Inżynieria Środowiska')],
+        [('Budownictwo','Budownictwo'), ('Inżynieria Środowiska','Inżynieria Środowiska')],
     'Wydział Budowy Maszyn i Zarządzania':
-        [('ib','Inżynieria Biomedyczna'), ('im','Inżynieria Materiałowa')]
+        [('Inżynieria Biomedyczna','Inżynieria Biomedyczna'), ('Inżynieria Materiałowa','Inżynieria Materiałowa')]
 }
 
 YEAR = [
     ('1','1'), ('2','2'), ('3','3'), ('4','4')
 ]
 
+GROUP = [
+    ('1','1'), ('2','2'), ('3','3'), ('4','4')
+]
+
 # print(FACULTY[0][1])
 # print(MAJOR[FACULTY[0][0]])
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
@@ -41,7 +46,7 @@ class RegistrationForm(FlaskForm):
     #todo wybor kierunku w zaleznosci od wydziału - chyba w js
     major = SelectField('Major', choices=MAJOR[FACULTY[0][0]])
     year = SelectField('Year', choices=YEAR)
-    group = StringField('Group', [validators.Length(min=1, max=6), validators.InputRequired()])
+    group = SelectField('Group', choices=GROUP)
     submit = SubmitField('Submit')
 
 
