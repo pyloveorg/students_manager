@@ -53,7 +53,7 @@ def edit_profile(id):
     if form.validate_on_submit(): #validate and request.method == 'POST'
         user.username = form.username.data
         user.about_me = form.about_me.data
-        #user.student.faculty = form.faculty.data
+        user.student.faculty = form.faculty.data
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect('students/<int:index>/edit_profile')
@@ -62,17 +62,16 @@ def edit_profile(id):
         form.about_me.data = current_user.about_me
     return render_template('faculty/students/edit_profile.html', form=form, user=user)
 
-# usunięcie własnego konta
+# usunięcie konta
+# starosta może usuwać konta studentów
 @app.route('/students/<int:id>/delete_account', methods=['GET','POST'])
 @login_required
 def delete_account(id):
     form = DeleteForm()
     if form.validate_on_submit():
-        password = form.password.data
         user = User.query.join(Student).filter(Student.id == id).first()
-        student = Student.query.join(User).filter(user.id == Student.user_id).first()
-        #todo metoda is_correct
-        if bcrypt.check_password_hash(user.password, password) is True:
+        student = Student.query.join(User).filter(Student.id == id).first()
+        if current_user.is_correct_password(form.password.data) is True:
             logout_user()
             db.session.delete(user)
             db.session.delete(student)

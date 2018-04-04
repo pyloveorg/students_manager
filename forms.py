@@ -1,37 +1,26 @@
-from wtforms import validators, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
+from wtforms import validators, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.fields.html5 import EmailField
 
 from flask_wtf import FlaskForm
 from wtforms import StringField
-from models import User
+from models import User, Faculty, Major, Year, Group
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
-FACULTY = [
-    ('Wydział Architektury', 'Wydział Architektury'),
-    ('Wydział Budownictwa i Inżynierii Środowiska', 'Wydział Budownictwa i Inżynierii Środowiska'),
-    ('Wydział Budowy Maszyn i Zarządzania','Wydział Budowy Maszyn i Zarządzania'),
-]
 
-MAJOR = {
-    'Wydział Architektury' :
-        [('Architektura','Architektura')],
-    'Wydział Budownictwa i Inżynierii Środowiska':
-        [('Budownictwo','Budownictwo'), ('Inżynieria Środowiska','Inżynieria Środowiska')],
-    'Wydział Budowy Maszyn i Zarządzania':
-        [('Inżynieria Biomedyczna','Inżynieria Biomedyczna'), ('Inżynieria Materiałowa','Inżynieria Materiałowa')]
-}
+def faculty_choices():
+    return Faculty.query
 
-YEAR = [
-    ('1','1'), ('2','2'), ('3','3'), ('4','4')
-]
 
-GROUP = [
-    ('1','1'), ('2','2'), ('3','3'), ('4','4')
-]
+def major_choices():
+    return Major.query.all()
 
-# print(FACULTY[0][1])
-# print(MAJOR[FACULTY[0][0]])
 
-#todo choices musi być z modeli w bazie
+def year_choices():
+    return Year.query.all()
+
+
+def group_choices():
+    return Group.query.all()
 
 
 class RegistrationForm(FlaskForm):
@@ -44,11 +33,11 @@ class RegistrationForm(FlaskForm):
     index = StringField('Index', [validators.Length(min=1, max=8), validators.InputRequired()])
     name = StringField('Name', [validators.Length(min=3, max=25), validators.InputRequired()])
     surname = StringField('Surname', [validators.Length(min=3, max=25), validators.InputRequired()])
-    faculty = SelectField('Faculty', choices=FACULTY)
+    faculty = QuerySelectField('Faculty', [validators.DataRequired()], query_factory=faculty_choices)
     #todo wybor kierunku w zaleznosci od wydziału - chyba w js
-    major = SelectField('Major', choices=MAJOR[FACULTY[0][0]])
-    year = SelectField('Year', choices=YEAR)
-    group = SelectField('Group', choices=GROUP)
+    major = QuerySelectField('Major', [validators.DataRequired()], query_factory=major_choices)
+    year = QuerySelectField('Year', [validators.DataRequired()], query_factory=year_choices)
+    group = QuerySelectField('Group', [validators.DataRequired()], query_factory=group_choices)
     submit = SubmitField('Submit')
 
 
@@ -94,9 +83,11 @@ class ForgotPasswordForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
     about_me = TextAreaField('About me', [validators.Length(min=0, max=140)])
-    # faculty
-    # major
-    # todo if user is not in faculty-major database
+    faculty = QuerySelectField('Faculty', [validators.DataRequired()], query_factory=faculty_choices)
+    # todo wybor kierunku w zaleznosci od wydziału - chyba w js
+    major = QuerySelectField('Major', [validators.DataRequired()], query_factory=major_choices)
+    year = QuerySelectField('Year', [validators.DataRequired()], query_factory=year_choices)
+    group = QuerySelectField('Group', [validators.DataRequired()], query_factory=group_choices)
     submit = SubmitField('Submit')
 
 

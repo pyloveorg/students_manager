@@ -13,16 +13,42 @@ def faculties():
     return render_template('faculty/faculties.html', faculties=faculties)
 
 
-# kierunki dla odpowiedniego wydziału
+# info o danym wydziale
+@app.route('/faculties/<int:id>', methods=['GET'])
+@login_required
+def faculty(id):
+    faculty = Faculty.query.filter(Faculty.id == id).first()
+    return render_template('faculty/faculty.html', faculties=faculties)
+
+
+# kierunki dla odpowiedniego wydziału oraz info
 @app.route('/faculties/<int:id>/majors', methods=['GET'])
 @login_required
 def majors(id):
     majors = Major.query.filter(Faculty.id == id).all()
-    return render_template('faculty/faculty.html', majors=majors)
+    return render_template('faculty/majors.html', majors=majors)
 
 
+# roczniki dla odpowiedniego kierunku
+@app.route('/faculties/<int:id1>/majors/<int:id2>/years/', methods=['GET'])
+@login_required
+def years(id1, id2):
+    majors = Major.query.filter(Faculty.id == id).all()
+    return render_template('faculty/years.html', majors=majors)
+
+
+# rocznik dla odpowiedniego kierunku
+@app.route('/faculties/<int:id1>/majors/<int:id2>/years/<int:id3>', methods=['GET'])
+@login_required
+def year(id1, id2):
+    majors = Major.query.filter(Faculty.id == id).all()
+    return render_template('faculty/majors.html', majors=majors)
+
+
+# todo zabezpieczenie przed otwarciem przez studenta, który nie jest z danego wydziału, kierunku, itd.
+# może dekorator?
 # przedmioty dla danego kierunku
-@app.route('/faculties/<int:id1>/majors/<int:id2>/year/<int:id3>/subjects', methods=['GET'])
+@app.route('/faculties/<int:id1>/majors/<int:id2>/years/<int:id3>/subjects', methods=['GET'])
 @login_required
 def subjects(id1, id2, id3):
     subjects = Subject.query.filter(Faculty.id == id1 and Major.id == id2 and Year.id == id3).all()
@@ -30,7 +56,7 @@ def subjects(id1, id2, id3):
 
 
 # info o przedmiocie
-@app.route('/faculty/<int:id1>/major/<int:id2>/year/<int:id3>/subjects/<int:id4>', methods=['GET'])
+@app.route('/faculty/<int:id1>/major/<int:id2>/years/<int:id3>/subjects/<int:id4>', methods=['GET'])
 @login_required
 def subject(id1, id2, id3, id4):
     '''

@@ -4,9 +4,9 @@
     <table>
         <tr valign="top">
         <br>
-            {% for faculty in faculties %}
+            {% for m in majors %}
                 <ol>
-                    <li><a href="/faculties/{{ faculty.id }}/majors">{{ faculty.name }}</a></li>
+                    <li><a href="/faculties/{{ faculty.id }}/majors" {{ m.name }}</li>
                 </ol>
             {% endfor %}
 

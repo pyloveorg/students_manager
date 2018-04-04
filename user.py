@@ -42,16 +42,10 @@ def register():
                 index=form.index.data,
                 name=form.name.data,
                 surname=form.surname.data,
-                faculty=Faculty(
-                    name=form.faculty.data,
-                    major=Major(
-                        name=form.major.data,
-                        year=Year(
-                            year=form.year.data,
-                            group=form.group.data
-        )
-                    )
-                )
+                faculty=form.faculty.data,
+                major=form.major.data,
+                year=form.year.data,
+                group=form.group.data,
             )
         )
         db.session.add(user)
@@ -175,8 +169,8 @@ def calendar():
 
 @app.route('/data')
 def return_data():
-    start_date = request.args.get('start', '')
-    end_date = request.args.get('end', '')
+    # start_date = request.args.get('start', '')
+    # end_date = request.args.get('end', '')
 
     #trzeba podać ścieżkę absolutną, bo u mnie nie działa
     with open('/Users/Kamila/PycharmProjects/students_manager/events', 'r') as file:
