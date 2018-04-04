@@ -3,11 +3,9 @@
 {% block content %}
     <table>
         <tr valign="top">
-        <br>
-                <ol>
+        <br><br>
                     {{ faculty.name }}
-                    <li><a href="/faculties/{{ faculty.id }}/majors/">Kierunki</a></li>
-                </ol>
+                    <a href="/faculties/{{ faculty.id }}/majors/">kierunki</a>
         </tr>
     </table>
     <hr>
