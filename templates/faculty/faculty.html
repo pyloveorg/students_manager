@@ -4,12 +4,10 @@
     <table>
         <tr valign="top">
         <br>
-            {% for faculty in faculties %}
                 <ol>
-                    <li><a href="/faculties/{{ faculty.id }}/majors/{{ majors.id }}">{{ faculty.name }}</a></li>
+                    {{ faculty.name }}
+                    <li><a href="/faculties/{{ faculty.id }}/majors/">Kierunki</a></li>
                 </ol>
-            {% endfor %}
-
         </tr>
     </table>
     <hr>
