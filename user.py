@@ -116,51 +116,23 @@ def logout():
     flash('You have been logged out')
     return redirect('/login')
 
-new_password = ''
 
 @app.route('/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():
-    global new_password
     form = ChangePasswordForm()
     if request.method == 'POST' and form.validate_on_submit():
         user = current_user
-        new_password = form.password.data
-
-        token = generate_confirmation_token(user.email)
-        confirm_url = url_for('confirm_password', token=token, _external=True)
-        html = render_template('user/changed_password.html', username=user.username, confirm_url=confirm_url)
-        subject = "Please confirm you want to change your password"
-        send_email(user.email, subject, html)
-
-        flash('A confirmation email has been sent via email.', 'success')
-        return redirect('/unconfirmed-password')
+        password = form.password.data
+        new_password = form.new_password.data
+        if bcrypt.check_password_hash(current_user.password, password):
+            user.password = bcrypt.generate_password_hash(new_password)
+            db.session.commit()
+            flash('Your password has been changed successfully.')
+            return redirect('/')
+        else:
+            flash('Your current password is incorrect.', 'success')
     return render_template('user/change_password.html', form=form)
-
-@app.route('/confirm-pasword/<token>')
-@login_required
-def confirm_password(token):
-    global new_password
-    try:
-        email = confirm_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
-    user = User.query.filter_by(email=email).first_or_404()
-    user.password = new_password
-    db.session.commit()
-    flash('Your password has been changed successfully.')
-    return redirect('/')
-
-
-@app.route('/unconfirmed-password')
-@login_required
-def unconfirmed_password():
-    global new_password
-    user = current_user
-    if user.password != new_password:
-        flash('Please confirm your account!', 'warning')
-        return render_template('user/unconfirmed_password.html')
-    return redirect('/')
 
 
 @app.route('/calendar', methods=['GET', 'POST'])

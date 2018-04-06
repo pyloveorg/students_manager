@@ -56,10 +56,10 @@ class DeleteForm(FlaskForm):
 
 
 class ChangePasswordForm(FlaskForm):
-    password = PasswordField('New Password', [validators.InputRequired(), validators.Length(min=5, max=25),
+    password = PasswordField('Current password', [validators.InputRequired()])
+    new_password = PasswordField('New Password', [validators.InputRequired(), validators.Length(min=5, max=25),
                                           validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat New Password')
-    confirm = PasswordField('Repeat Password')
     submit = SubmitField('Submit')
 
 
