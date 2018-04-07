@@ -27,12 +27,13 @@ def search():
 #     results = Student.query.whoosh_search(query).all()
 #     return render_template('search_results.html', query=query, results=results)
 
+
 # wszyscy studenci z danego wydziału i kierunku
 # todo nawiązywanie kontaktu z danym studentem - mail lub chat
 @app.route('/students/', methods=['GET'])
 @login_required
 def students():
-    students = Student.query.filter(Student.faculty == current_user.student.faculty).all()
+    students = Student.query.all()
     return render_template('faculty/students/students.html', students=students)
 
 
@@ -40,9 +41,9 @@ def students():
 @app.route('/students/<int:id>', methods=['GET'])
 @login_required
 def student(id):
-    # todo zmienić na user a nie current_user
-    user = User.query.filter(Student.id == id).first()
-    return render_template('faculty/students/profile.html', user=user)
+    student = Student.query.filter(Student.id == id).first()
+    user = User.query.filter(User.id == student.id + 1).first()
+    return render_template('faculty/students/profile.html', user=user, student=student)
 
 # zmiana własnego profilu
 @app.route('/students/<int:id>/edit_profile', methods=['GET','POST'])
