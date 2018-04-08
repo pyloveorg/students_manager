@@ -33,22 +33,24 @@ def info():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        student = Student(
+            index=form.index.data,
+            name=form.name.data,
+            surname=form.surname.data,
+            faculty=form.faculty.data,
+            major=form.major.data,
+            year=form.year.data,
+            group=form.group.data,
+        )
         user = User(
             username=form.username.data,
             email=form.email.data,
             password=form.password.data,
             confirmed=False,
-            student=Student(
-                index=form.index.data,
-                name=form.name.data,
-                surname=form.surname.data,
-                faculty=form.faculty.data,
-                major=form.major.data,
-                year=form.year.data,
-                group=form.group.data,
-            )
+            admin=False
         )
         db.session.add(user)
+        db.session.add(student)
         db.session.commit()
 
         token = generate_confirmation_token(user.email)

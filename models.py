@@ -54,7 +54,7 @@ class User(db.Model, UserMixin):
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), unique=True)
 
 
-    def __init__(self, username, email, password, student, confirmed=False, admin=False,
+    def __init__(self, username, email, password, admin, confirmed=False,
                  confirmed_on=None, password_reset_token=None):
         self.username = username
         self.email = email
@@ -64,7 +64,7 @@ class User(db.Model, UserMixin):
         self.confirmed_on = confirmed_on
         self.password_reset_token = password_reset_token
         self.registered_on = datetime.utcnow()
-        self.student = student
+
 
     def get_id(self):
         return self.id
@@ -198,9 +198,9 @@ class Group(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
     name = Column(String(10), default='')
     student = db.relationship('Student', backref='group')
-    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False, unique=True)
-    major_id = db.Column(db.Integer, db.ForeignKey('major.id'), nullable=False, unique=True)
-    year_id = db.Column(db.Integer, db.ForeignKey('year.id'), nullable=False, unique=True)
+    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False)
+    major_id = db.Column(db.Integer, db.ForeignKey('major.id'), nullable=False)
+    year_id = db.Column(db.Integer, db.ForeignKey('year.id'), nullable=False)
 
     def __init__(self, name=''):
         self.name = name

@@ -1,22 +1,28 @@
 __author__ = 'Kamila Urbaniak, Paulina Gralak'
 
 from sqlalchemy import create_engine
-from main import db, bcrypt
+from main import db
 import models
+import json
+
+
+def db_admin():
+    username = "kamila"
+    password = "kkkk1234"
+    email = 'kamila.urbaniak26@gmail.com'
+    admin = True
+    user = models.User(username, email, password, admin)
+    user.poweruser = True
+    db.session.add(user)
+    db.session.commit()
 
 
 def db_start():
     create_engine('sqlite:///tmp/students_manager.db', convert_unicode=True)
     db.create_all()
     db.session.commit()
-    # username = "piotr"
-    # password = bcrypt.generate_password_hash('pppp1234')
-    # email = 'piotr@dyba.com.pl'
-    # admin = True
-    # user = models.User(username, email, password, admin)
-    # user.poweruser = True
-    # db.session.add(user)
-    # db.session.commit()
+    db_admin()
+
 
 if __name__ == '__main__':
     db_start()

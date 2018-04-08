@@ -42,8 +42,6 @@ app.static_path = path.join(path.abspath(__file__), 'static')
 
 if __name__ == '__main__':
     from students import *
-    from lectures import *
-    from students import *
     from faculties import *
     from user import *
     app.secret_key = "super secret key"
