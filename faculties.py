@@ -2,7 +2,7 @@ from main import app
 
 from flask import render_template, redirect
 from flask_login import login_required
-from models import Subject, Major, Faculty, Year
+from models import Major, Faculty
 
 
 # return all faculties
@@ -31,16 +31,18 @@ def add_faculty():
 @app.route('/faculties/<int:id1>/majors', methods=['GET'])
 @login_required
 def majors(id1):
-    majors = Major.query.filter(Faculty.id == id1).all()
-    return render_template('faculty/majors.html', majors=majors)
+    faculty = Faculty.query.filter(Faculty.id == id1).first()
+    majors = Major.query.filter_by(Faculty.major == id1).all()
+    return render_template('faculty/majors.html', faculty=faculty, majors=majors)
 
 
 # return major with particular faculty and id
 @app.route('/faculties/<int:id1>/majors/<int:id2>', methods=['GET'])
 @login_required
 def major(id1, id2):
-    major = Major.query.filter(Faculty.id == id1).first()
-    return render_template('faculty/majors.html', major=major)
+    faculty = Faculty.query.filter(Faculty.id == id1).first()
+    major = Major.query.filter(Faculty.id == id1 and Major.id == id2).first()
+    return render_template('faculty/majors.html', major=major, faculty=faculty)
 
 
 # add new major with particular faculty
