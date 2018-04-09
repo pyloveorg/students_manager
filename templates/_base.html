@@ -24,6 +24,10 @@
       <li class="nav-item">
         <a class="nav-link" href="#">CONTACT</a>
       </li>
+    <li class="nav-item">
+        {% set id = current_user.id - 1 %}
+        <a class="nav-link" href="/students/{{id}}">PROFILE</a>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownYourAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           YOUR ACCOUNT
@@ -34,7 +38,6 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ url_for('register') }}">Register</a>
           {% else %}
-          <a class="dropdown-item" href="/students/{{current_user.student.id}}">Profile</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ url_for('logout') }}">Log out</a>
         {% endif %}
@@ -61,41 +64,41 @@
     </form>
   </div>
 </nav>
-
- <!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Students manager</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-      <ul class="nav navbar-nav">
-      {% if current_user.admin == True %}
-              <li><a class="nav-link" href="{{ url_for('admin.index')}}">Admin</a></li>
-            {% endif %}
-      {% set id = current_user.id - 1 %}
-
-          {% if current_user.is_authenticated %}
-              <li><a class="nav-link" href="{{ url_for('calendar')}}">Calendar</a></li>
-              <li><a class="nav-link" href="{{ url_for('students')}}">Students</a></li>
-              <li><a class="nav-link" href="/students/{{id}}">Profile</a></li>
-              <li><a class="nav-link" href="{{ url_for('faculties')}}">Faculties</a></li>
-              <li><a class="nav-link" href="{{ url_for('search')}}">Search</a></li>
-              <li><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
-          {% else %}
-          <li><a class="nav-link" href="{{ url_for('login')}}">Log in</a></li>
-              <li><a class="nav-link" href="{{ url_for('register') }}">Registration</a></li>
-        </li>
-          {% endif %}
-            {% block extra_nav %}{% endblock %}
-      </ul>
-        </li>
-      </ul>
-    </div>
-  </nav> -->
+{##}
+{# <!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark">#}
+{#    <a class="navbar-brand" href="#">Students manager</a>#}
+{#    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"#}
+{#            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">#}
+{#      <span class="navbar-toggler-icon"></span>#}
+{#    </button>#}
+{##}
+{##}
+{#    <div class="collapse navbar-collapse">#}
+{#      <ul class="navbar-nav mr-auto">#}
+{#      <ul class="nav navbar-nav">#}
+{#      {% if current_user.admin == True %}#}
+{#              <li><a class="nav-link" href="{{ url_for('admin.index')}}">Admin</a></li>#}
+{#            {% endif %}#}
+{#      {% set id = current_user.id - 1 %}#}
+{##}
+{#          {% if current_user.is_authenticated %}#}
+{#              <li><a class="nav-link" href="{{ url_for('calendar')}}">Calendar</a></li>#}
+{#              <li><a class="nav-link" href="{{ url_for('students')}}">Students</a></li>#}
+{#              <li><a class="nav-link" href="/students/{{id}}">Profile</a></li>#}
+{#              <li><a class="nav-link" href="{{ url_for('faculties')}}">Faculties</a></li>#}
+{#              <li><a class="nav-link" href="{{ url_for('search')}}">Search</a></li>#}
+{#              <li><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>#}
+{#          {% else %}#}
+{#          <li><a class="nav-link" href="{{ url_for('login')}}">Log in</a></li>#}
+{#              <li><a class="nav-link" href="{{ url_for('register') }}">Registration</a></li>#}
+{#        </li>#}
+{#          {% endif %}#}
+{#            {% block extra_nav %}{% endblock %}#}
+{#      </ul>#}
+{#        </li>#}
+{#      </ul>#}
+{#    </div>#}
+{#  </nav> -->#}
 
   <div class="container">
     <div class="row">
