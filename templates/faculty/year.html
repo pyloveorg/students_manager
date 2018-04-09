@@ -3,13 +3,9 @@
 {% block content %}
     <table>
         <tr valign="top">
-        <br>
-            {% for faculty in faculties %}
-                <ol>
-                    <li><a href="/faculties/{{ faculty.id }}/majors/{{ majors.id }}">{{ faculty.name }}</a></li>
-                </ol>
-            {% endfor %}
-
+        <br><br>
+                    {{ year.nr }}
+                    <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups">Grupy</a>
         </tr>
     </table>
     <hr>

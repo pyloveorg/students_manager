@@ -6,7 +6,7 @@
         <br>
             {% for faculty in faculties %}
                 <ol>
-                    <li><a href="/faculties/{{ faculty.id }}">{{ faculty.name }}</a></li>
+                    <a href="/faculties/{{ faculty.id }}">{{ faculty.name }}</a>
                 </ol>
             {% endfor %}
 

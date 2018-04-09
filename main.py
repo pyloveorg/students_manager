@@ -44,5 +44,6 @@ if __name__ == '__main__':
     from students import *
     from faculties import *
     from user import *
+    from subjects import *
     app.secret_key = "super secret key"
     app.run(debug=True, port=5000)

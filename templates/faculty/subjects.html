@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "_base.html" %}
 
-</body>
-</html>
+{% block content %}
+    <table>
+        <tr valign="top">
+        <br>
+            {% for subject in subjects %}
+                <ol>
+                    <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups/{{ id4 }}/subjects/{{ subject.id }}">{{ subject.name }}</a>
+                </ol>
+            {% endfor %}
+
+        </tr>
+    </table>
+    <hr>
+{% endblock %}
+
