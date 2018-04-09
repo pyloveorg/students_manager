@@ -28,7 +28,7 @@ def search():
 #     return render_template('search_results.html', query=query, results=results)
 
 
-# wszyscy studenci z danego wydziału i kierunku
+# todo wszyscy studenci z danego wydziału i kierunku
 # todo nawiązywanie kontaktu z danym studentem - mail lub chat
 @app.route('/students/', methods=['GET'])
 @login_required
@@ -43,7 +43,7 @@ def students():
 def student(id):
     student = Student.query.filter(Student.id == id).first()
     user = User.query.filter(User.id == student.id + 1).first()
-    return render_template('faculty/students/profile.html', user=user, student=student)
+    return render_template('faculty/students/profile.html', user=user, student=student, current_user=current_user)
 
 # zmiana własnego profilu
 @app.route('/students/<int:id>/edit_profile', methods=['GET','POST'])

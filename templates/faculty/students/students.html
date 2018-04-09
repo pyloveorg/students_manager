@@ -6,7 +6,7 @@
         <br>
             {% for student in students %}
                 <ol>
-                    <li><a href="/students/{{ student.id }}">{{ student.name }} {{ student.surname }}</li></a>
+                    <a href="/students/{{ student.id }}">{{ student.name }} {{ student.surname }}</a>
                 </ol>
             {% endfor %}
 
