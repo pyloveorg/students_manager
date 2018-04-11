@@ -12,6 +12,7 @@
             <p> Faculty: {{ student.faculty.name }}</p>
             <p> Major: {{ student.major.name }}</p>
             <p> Year: {{ student.year.nr }}</p>
+            <p> Group: {{ student.group.name }}</p>
             <h2><a class="u-email" href="mailto:{{ user.email }}">{{ user.email }}</a></h2>
             {% if user.about_me %}<p>About me: {{ user.about_me }}</p>{% endif %}
                 {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}

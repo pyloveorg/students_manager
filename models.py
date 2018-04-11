@@ -148,8 +148,7 @@ class Faculty(db.Model):
         self.name = name
 
     def __repr__(self):
-        return "Faculty(id={}, name={}".\
-            format(self.id, self.name)
+        return '{}'.format(self.name)
 
 
 class Major(db.Model):
@@ -167,8 +166,7 @@ class Major(db.Model):
         self.name = name
 
     def __repr__(self):
-        return "Major(id={}, name={}".\
-            format(self.id, self.name)
+        return '{}'.format(self.name)
 
 
 class Year(db.Model):
@@ -187,8 +185,7 @@ class Year(db.Model):
         self.nr = nr
 
     def __repr__(self):
-        return "Year(id={},nr={}". \
-            format(self.id, self.nr)
+        return '{}'.format(self.nr)
 
 
 class Group(db.Model):
@@ -206,8 +203,7 @@ class Group(db.Model):
         self.name = name
 
     def __repr__(self):
-        return "Group(id={}, name={}". \
-            format(self.id, self.name)
+        return '{}'.format(self.name)
 
 
 class Secretary(db.Model):
@@ -226,8 +222,7 @@ class Secretary(db.Model):
         self.email = email
 
     def __repr__(self):
-        return "Secretary(id={}, name={}, surname={}, email={}, ".\
-            format(self.id, self.name, self.surname, self.email)
+        return "{0} {1}".format(self.name, self.surname)
 
 
 class Subject(db.Model):
@@ -259,8 +254,7 @@ class Lecture(db.Model):
         self.consult = consult
 
     def __repr__(self):
-        return "Lecture(id={}, name={}, surname={}, consult={}".\
-            format(self.id, self.name, self.surname, self.consult)
+        return "name={}, surname={}".format(self.name, self.surname)
 
 
 admin.add_view(ModelView(User, db.session))
