@@ -111,10 +111,10 @@ class Student(db.Model):
     index = Column(Integer, unique=True)
     name = Column(String(25), default='')
     surname = Column(String(25), default='')
-    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False)
-    major_id = db.Column(db.Integer, db.ForeignKey('major.id'), nullable=False)
-    year_id = db.Column(db.Integer, db.ForeignKey('year.id'), nullable=False)
-    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
+    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False, unique=True)
+    major_id = db.Column(db.Integer, db.ForeignKey('major.id'), nullable=False, unique=True)
+    year_id = db.Column(db.Integer, db.ForeignKey('year.id'), nullable=False, unique=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False, unique=True)
     user = db.relationship('User', backref='student')
 
     def __init__(self, index='', name='', surname='', faculty='', major='', year='', group=''):
@@ -148,8 +148,7 @@ class Faculty(db.Model):
         self.name = name
 
     def __repr__(self):
-        return "Faculty(id={}, name={}".\
-            format(self.id, self.name)
+        return "{}".format(self.name)
 
 
 class Major(db.Model):
@@ -161,14 +160,13 @@ class Major(db.Model):
     year = db.relationship('Year', backref='major')
     group = db.relationship('Group', backref='major')
     student = db.relationship('Student', backref='major')
-    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False)
+    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False, unique=True)
 
     def __init__(self, name=''):
         self.name = name
 
     def __repr__(self):
-        return "Major(id={}, name={}".\
-            format(self.id, self.name)
+        return "{}".format(self.name)
 
 
 class Year(db.Model):
@@ -179,16 +177,15 @@ class Year(db.Model):
     nr = Column(String(4), default='')
     group = db.relationship('Group', backref='year')
     student = db.relationship('Student', backref='year')
-    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False)
-    major_id = db.Column(db.Integer, db.ForeignKey('major.id'), nullable=False)
-    secretary_id = db.Column(db.Integer, db.ForeignKey('secretary.id'), nullable=False)
+    faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False, unique=True)
+    major_id = db.Column(db.Integer, db.ForeignKey('major.id'), nullable=False, unique=True)
+    secretary_id = db.Column(db.Integer, db.ForeignKey('secretary.id'), nullable=False, unique=True)
 
     def __init__(self, nr=''):
         self.nr = nr
 
     def __repr__(self):
-        return "Year(id={},nr={}". \
-            format(self.id, self.nr)
+        return "{}".format(self.nr)
 
 
 class Group(db.Model):
@@ -206,8 +203,7 @@ class Group(db.Model):
         self.name = name
 
     def __repr__(self):
-        return "Group(id={}, name={}". \
-            format(self.id, self.name)
+        return "{}".format(self.name)
 
 
 class Secretary(db.Model):
