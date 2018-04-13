@@ -3,16 +3,16 @@ __author__ = 'Kamila Urbaniak, Paulina Gralak'
 from datetime import *
 from flask_login import UserMixin
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column
 from sqlalchemy.types import Integer
 from sqlalchemy.types import String
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import DateTime
 from main import bcrypt, db, app
 from hashlib import md5
-import flask_whooshalchemy as wa
-from flask_admin.contrib.sqla import ModelView
-from main import admin
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 '''
 konto admina:
@@ -52,9 +52,11 @@ class User(db.Model, UserMixin):
     about_me = Column(String(140))
     last_seen = Column(DateTime, default=datetime.utcnow)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), unique=True)
+    FBuserID = db.Column(db.String(32))
+    FBAccessToken = db.Column(db.String(128))
 
 
-    def __init__(self, username, email, password, admin, confirmed=False,
+    def __init__(self, username, email, password, admin, FBuserID, FBAccessToken, confirmed=False,
                  confirmed_on=None, password_reset_token=None):
         self.username = username
         self.email = email
@@ -64,6 +66,8 @@ class User(db.Model, UserMixin):
         self.confirmed_on = confirmed_on
         self.password_reset_token = password_reset_token
         self.registered_on = datetime.utcnow()
+        self.FBuserID = FBuserID
+        self.FBAccessToken = FBAccessToken
 
 
     def get_id(self):
@@ -255,13 +259,3 @@ class Lecture(db.Model):
 
     def __repr__(self):
         return "name={}, surname={}".format(self.name, self.surname)
-
-
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(Student, db.session))
-admin.add_view(ModelView(Faculty, db.session))
-admin.add_view(ModelView(Major, db.session))
-admin.add_view(ModelView(Year, db.session))
-admin.add_view(ModelView(Group, db.session))
-admin.add_view(ModelView(Subject, db.session))
-admin.add_view(ModelView(Secretary, db.session))

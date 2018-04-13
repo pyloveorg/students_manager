@@ -3,14 +3,13 @@ from main import app, db, lm
 from flask import render_template, redirect, request, flash, url_for,jsonify
 from flask_login import login_required, logout_user, login_user, current_user
 from forms import LoginForm, RegistrationForm, ChangePasswordForm
-from models import User, Student, Faculty, Major, Year
+from models import User, Student
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
 from main import bcrypt
-
 import json
-
 from datetime import *
+
 
 @lm.user_loader
 def load_user(user_id):
@@ -95,8 +94,8 @@ def unconfirmed():
     flash('Please confirm your account!', 'warning')
     return render_template('user/unconfirmed.html')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first_or_404()
@@ -152,6 +151,4 @@ def return_data():
         return jsonify(data)
 
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('errors/404.html'), 404
+

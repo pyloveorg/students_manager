@@ -30,7 +30,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownYourAccount">
           {% if not current_user.is_authenticated %}
-          <a class="dropdown-item" href="{{ url_for('login')}}">Log in</a>
+          <a class="dropdown-item" href="{{ url_for('signin')}}">Log in</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ url_for('register') }}">Register</a>
           {% else %}
@@ -48,6 +48,7 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           MENU
         </a>
+
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
           <a class="dropdown-item" href="{{ url_for('students')}}">Students</a>
           <div class="dropdown-divider"></div>
@@ -59,9 +60,11 @@
       {% endif %}
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <input class="form-control mr-sm-2" type="search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+
+
   </div>
 </nav>
 {##}
@@ -100,6 +103,8 @@
 {#    </div>#}
 {#  </nav> -->#}
 
+
+
   <div class="container">
     <div class="row">
       <div class="col-12">
@@ -122,6 +127,16 @@
 
     {% block content %}{% endblock %}
   </div>
+<script>
+  (function() {
+  var cx = '017643444788069204610:4gvhea_mvga'; // Insert your own Custom Search engine ID here
+  var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+  gcse.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+<gcse:search></gcse:search>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

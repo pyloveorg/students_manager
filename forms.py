@@ -91,6 +91,6 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class SearchForm(FlaskForm):
-    search = StringField('Search', [validators.InputRequired()])
-    submit = SubmitField('Submit')
+# class SearchForm(FlaskForm):
+#     search = StringField('Search', [validators.InputRequired()])
+#     submit = SubmitField('Submit')

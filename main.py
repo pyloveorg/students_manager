@@ -1,6 +1,5 @@
 __author__ = 'Kamila Urbaniak, Paulina Gralak'
 
-from os import path
 
 from flask import Flask
 from flask_login import LoginManager
@@ -38,12 +37,21 @@ ts = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 admin = Admin(app, name='students_manager', template_mode='bootstrap3')
 
-app.static_path = path.join(path.abspath(__file__), 'static')
+lm.login_view = "login"
+lm.session_protection = "strong"
+
+CLIENT_SECRETS_FILE = "/Users/Kamila/PycharmProjects/students_manager/client_secrets.json"
+
+SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
+API_SERVICE_NAME = 'drive'
+API_VERSION = 'v2'
 
 if __name__ == '__main__':
     from students import *
     from faculties import *
     from user import *
     from subjects import *
+    from google_drive import *
+    # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.secret_key = "super secret key"
     app.run(debug=True, port=5000)

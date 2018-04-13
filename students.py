@@ -4,28 +4,9 @@ from main import app, db, lm
 
 from flask import render_template, redirect, request, flash
 from flask_login import login_required, logout_user, current_user
-from forms import EditProfileForm, DeleteForm, SearchForm
+from forms import EditProfileForm, DeleteForm
 from models import User, Student
 from main import bcrypt
-
-
-@app.route('/search', methods=['GET', 'POST'])
-@login_required
-def search():
-    form = SearchForm()
-    if form.validate_on_submit():
-        data = form.search.data
-        results = Student.query.whoosh_search(data).all()
-        print(str(results))
-        #return redirect('/search_results')
-    return render_template('search.html', form=form)
-
-
-# @app.route('/search_results/<query>', methods=['GET', 'POST'])
-# @login_required
-# def search_result(query):
-#     results = Student.query.whoosh_search(query).all()
-#     return render_template('search_results.html', query=query, results=results)
 
 
 # todo wszyscy studenci z danego wydziału i kierunku
