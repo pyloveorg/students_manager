@@ -8,25 +8,30 @@ from flask import render_template, redirect, request, flash
 from flask_login import login_required, logout_user, current_user
 from forms import EditProfileForm, DeleteForm, SearchForm
 from models import User, Student, Faculty, Major, Subject
-from main import bcrypt
 
-@app.route('/search', methods=['GET', 'POST'])
-@login_required
-def search():
-    form = SearchForm()
-    if form.validate_on_submit():
-        data = form.search.data
-        results = Student.query.whoosh_search(data).all()
-        print(str(results))
-        #return redirect('/search_results')
-    return render_template('search.html', form=form)
-
-
+'''
+whoosh_search
+'''
+# CHOICES = {'Student': Student,'Faculty': Faculty, 'Major': Major, 'Subject': Subject }
+#
+# @app.route('/search', methods=['GET', 'POST'])
+# @login_required
+# def search():
+#     form = SearchForm()
+#     if form.validate_on_submit():
+#         select = form.select.data
+#         search = form.search.data
+#         return search_result(select, search)
+#     return render_template('search.html', form=form)
+#
+#
 # @app.route('/search_results/<query>', methods=['GET', 'POST'])
 # @login_required
-# def search_result(query):
-#     results = Student.query.whoosh_search(query).all()
-#     return render_template('search_results.html', query=query, results=results)
+# def search_result(select, search):
+#     qry = CHOICES[select]
+#     print(qry.surname)
+#     results = qry.query.whoosh_search(search).all()
+#     return render_template('search_results.html', results=results)
 
 
 # @app.route('/search', methods=['GET', 'POST'])
@@ -39,6 +44,9 @@ def search():
 #         return search_result(select, search)
 #     return render_template('search.html', form=form)
 #
+'''
+basic search
+'''
 # CHOICES = {'Student': Student,'Faculty': Faculty, 'Major': Major, 'Subject': Subject }
 #
 # @app.route('/search_results', methods=['GET', 'POST'])
