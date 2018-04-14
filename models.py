@@ -253,3 +253,12 @@ class Lecture(db.Model):
 
     def __repr__(self):
         return "name={}, surname={}".format(self.name, self.surname)
+
+
+admin.add_view(ModelView(Student, db.session))
+admin.add_view(ModelView(Faculty, db.session))
+admin.add_view(ModelView(Major, db.session))
+admin.add_view(ModelView(Year, db.session))
+admin.add_view(ModelView(Group, db.session))
+admin.add_view(ModelView(Subject, db.session))
+admin.add_view(ModelView(Secretary, db.session))
