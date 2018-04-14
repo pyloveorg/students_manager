@@ -10,6 +10,24 @@ from forms import EditProfileForm, DeleteForm, SearchForm
 from models import User, Student, Faculty, Major, Subject
 from main import bcrypt
 
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        data = form.search.data
+        results = Student.query.whoosh_search(data).all()
+        print(str(results))
+        #return redirect('/search_results')
+    return render_template('search.html', form=form)
+
+
+# @app.route('/search_results/<query>', methods=['GET', 'POST'])
+# @login_required
+# def search_result(query):
+#     results = Student.query.whoosh_search(query).all()
+#     return render_template('search_results.html', query=query, results=results)
+
 
 # @app.route('/search', methods=['GET', 'POST'])
 # @login_required
