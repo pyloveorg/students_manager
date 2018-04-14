@@ -98,16 +98,19 @@ def unconfirmed():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first_or_404()
-        if user.is_correct_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            flash('Logged in successfully.')
-            return redirect('/')
-        else:
-            flash('Invalid credentials')
-            return redirect('login')
-    return render_template('user/login.html', form=form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
+            if user is None:
+                flash('Invalid credentials')
+                return redirect('/login')
+            else:
+                if user.is_correct_password(form.password.data):
+                    login_user(user, remember=form.remember_me.data)
+                    flash('Logged in successfully.')
+                    return redirect('/')
+    else:
+        return render_template('user/login.html', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])

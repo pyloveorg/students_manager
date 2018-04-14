@@ -13,6 +13,7 @@
 <form method=post>
   <dl>
       {{ form.csrf_token }}
+      {{ render_field(form.select) }}
     {{ render_field(form.search) }}
 
       <p>{{ form.submit() }}</p>

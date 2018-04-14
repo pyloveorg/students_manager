@@ -3,14 +3,15 @@ __author__ = 'Kamila Urbaniak, Paulina Gralak'
 from datetime import *
 from flask_login import UserMixin
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column
 from sqlalchemy.types import Integer
 from sqlalchemy.types import String
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import DateTime
-from main import bcrypt, db, app
+from main import bcrypt, db
 from hashlib import md5
-
+from flask_admin.contrib.sqla import ModelView
+from main import admin
 
 '''
 konto admina:
@@ -104,7 +105,7 @@ class User(db.Model, UserMixin):
 class Student(db.Model):
 
     __tablename__ = 'student'
-    __searchable__ = ['index']
+    __searchable__ = ['name', 'surname']
     id = Column(Integer, autoincrement=True, primary_key=True)
     index = Column(Integer, unique=True)
     name = Column(String(25), default='')
@@ -253,3 +254,12 @@ class Lecture(db.Model):
 
     def __repr__(self):
         return "name={}, surname={}".format(self.name, self.surname)
+
+
+admin.add_view(ModelView(Student, db.session))
+admin.add_view(ModelView(Faculty, db.session))
+admin.add_view(ModelView(Major, db.session))
+admin.add_view(ModelView(Year, db.session))
+admin.add_view(ModelView(Group, db.session))
+admin.add_view(ModelView(Subject, db.session))
+admin.add_view(ModelView(Secretary, db.session))
