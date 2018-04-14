@@ -1,31 +1,61 @@
 #!/usr/bin/env python
 # encoding: utf-8
-from main import app, db, lm
+from main import app, db
+from sqlalchemy import func, or_
+
 
 from flask import render_template, redirect, request, flash
 from flask_login import login_required, logout_user, current_user
 from forms import EditProfileForm, DeleteForm, SearchForm
-from models import User, Student
+from models import User, Student, Faculty, Major, Subject
 from main import bcrypt
 
 
-@app.route('/search', methods=['GET', 'POST'])
-@login_required
-def search():
-    form = SearchForm()
-    if form.validate_on_submit():
-        data = form.search.data
-        results = Student.query.whoosh_search(data).all()
-        print(str(results))
-        #return redirect('/search_results')
-    return render_template('search.html', form=form)
-
-
-# @app.route('/search_results/<query>', methods=['GET', 'POST'])
+# @app.route('/search', methods=['GET', 'POST'])
 # @login_required
-# def search_result(query):
-#     results = Student.query.whoosh_search(query).all()
-#     return render_template('search_results.html', query=query, results=results)
+# def _search():
+#     form = SearchForm()
+#     if form.validate_on_submit():
+#         select = form.select.data
+#         search = form.search.data
+#         return search_result(select, search)
+#     return render_template('search.html', form=form)
+#
+# CHOICES = {'Student': Student,'Faculty': Faculty, 'Major': Major, 'Subject': Subject }
+#
+# @app.route('/search_results', methods=['GET', 'POST'])
+# @login_required
+# def search_result(select, search):
+#     results = []
+#     qry = CHOICES[select]
+#     if select == 'Student':
+#         res = search.split(' ')
+#         if len(res) == 1:
+#             students = qry.query.filter(
+#                 or_(func.lower(qry.name) == res[0].lower(), func.lower(qry.surname) == res[0].lower())).all()
+#         elif len(res) == 2:
+#             students = qry.query.filter(func.lower(qry.name) == res[0].lower() and func.lower(qry.surname) == res[1].lower()).all()
+#         results = None
+#     elif select == 'Faculty':
+#         res = search.split(' ')
+#         if len(res) == 1:
+#             results = qry.query.filter(
+#                 or_(func.lower(qry.name) == res[0].lower(), func.lower(qry.surname) == res[0].lower())).all()
+#         elif len(res) == 2:
+#             results = qry.query.filter(func.lower(qry.name) == res[0].lower() and func.lower(qry.surname) == res[1].lower()).all()
+#         students = None
+#
+#     else:
+#         results = qry.query.filter(func.lower(qry.name) == search.lower()).all()
+#         students = None
+#
+#     if not results and not students:
+#         flash('No results found!')
+#         return redirect('/search')
+#     else:
+#         return render_template('search_results.html', students=students, results=results, qry=qry)
+
+
 
 
 # todo wszyscy studenci z danego wydziału i kierunku

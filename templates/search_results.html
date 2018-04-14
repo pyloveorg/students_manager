@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <table>
+        <tr valign="top">
+        <br>
+            {% if results %}
+            {% for result in results %}
+                {{ result.name }} {{ result.faculty }}
+{#                <ol>#}
+{#                    <a href="/students/{{ .id }}">{{ faculty.name }}</a>#}
+{#                </ol>#}
+            {% endfor %}
+            {% endif %}
+        {% if students %}
+         {% for student in students %}
+               {{ student.name }} {{ student.surname }}
+             <a href="/students/{{ student.id }}" class="btn btn-light" role="button">Show profile</a>
+        {% endfor %}
+        {% endif %}
+
+        </tr>
+    </table>
+    <hr>
+{% endblock %}
+
