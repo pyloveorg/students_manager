@@ -21,7 +21,7 @@ def db_start():
     create_engine('sqlite:///tmp/students_manager.db', convert_unicode=True)
     db.create_all()
     db.session.commit()
-    db_admin()
+    #db_admin()
 
 
 if __name__ == '__main__':

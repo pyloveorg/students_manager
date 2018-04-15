@@ -26,7 +26,7 @@ def before_request():
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
-    return render_template('main/info.html')
+    return render_template('_base.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
