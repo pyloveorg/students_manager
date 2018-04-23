@@ -1,0 +1,14 @@
+.navbar{
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+    text-align: center;
+}
+
+#welcome_image{
+    padding: 50px;
+}
+
+body{
+color: pink;
+}
