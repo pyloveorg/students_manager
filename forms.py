@@ -1,4 +1,4 @@
-from wtforms import validators, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import validators, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.fields.html5 import EmailField
 
 from flask_wtf import FlaskForm
@@ -92,5 +92,7 @@ class EditProfileForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
-    search = StringField('Search', [validators.InputRequired()])
+    choices = [('Student', 'Student'), ('Faculty', 'Faculty'), ('Major', 'Major'), ('Subject', 'Subject')]
+    select = SelectField('Search', [validators.InputRequired()], choices=choices)
+    search = StringField('')
     submit = SubmitField('Submit')
