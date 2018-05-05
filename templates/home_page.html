@@ -6,28 +6,41 @@
 {% block content %}
 
   <div class="container-fluid">
-    <div class="row justify-content-center" id="welcome_image" style="padding: 50px;">
-      <img src="{{ url_for('static', filename='img/welcome2.jpg') }}" width="1345px" height="580">
-    </div>
-
-    <div id="about_us" class="row justify-content-center">
-      <div class="col-md-4">
-        <h2>ABOUT US</h2>
+    <div class="row">
+      <div class="col-md-3">
+        <h1>STUDENTS MANAGER</h1>
+      </div>
+      <div class="col-md-9" style="padding: 0px">
+        <img id="welcome_image" src="{{ url_for('static', filename='img/welcome3.jpg') }}">
       </div>
     </div>
 
+      <div id="about_us" class="row justify-content-center">
+        <div class="col-md-2">
+          <h2>OUR TEAM</h2>
+        </div>
+      </div>
+        <div class="row justify-content-center contact">
+          <div class="offset-md-1 col-md-5">
+            <img class="team_img" src="{{ url_for('static', filename='img/paulina.jpg') }}">
+          </div>
+          <div class="col-md-5">
+            <img class="team_img" src="{{ url_for('static', filename='img/kamila.jpg') }}">
+          </div>
+        </div>
+
     <div id="events" class="row justify-content-center">
-      <div class="col-md-4">
+      <div class="col-md-2">
         <h2>EVENTS</h2>
       </div>
     </div>
 
     <div id="contact" class="row justify-content-center">
-      <div class="col-md-4">
+      <div class="col-md-2">
         <h2>CONTACT</h2>
       </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center contact">
       <div class="col-md-3">
         <i class="fa fa-map-marker"></i>
         <p>Address</p>
@@ -37,17 +50,18 @@
           00 - 000 Poznań
         </p>
       </div>
-      <div class="col-md-3">
+      <div id="email" class="col-md-3 contact">
         <i class="fa fa-envelope"></i>
         <p>E-mail</p>
         <p>xxx.yyy@gmail.com</p>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 contact">
         <i class="fa fa-phone"></i>
         <p>Phone</p>
         <p>000 000 000</p>
       </div>
     </div>
   </div>
+
 
 {% endblock %}

@@ -7,6 +7,7 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 </head>
 
@@ -17,25 +18,27 @@
     <ul class="navbar-nav mr-auto">
       {% if current_user.admin == True %}
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('admin.index')}}">ADMIN</a>
+        <a class="nav-link" href="{{ url_for('admin.index')}}"><p class="menu">ADMIN</p></a>
       </li>
       {% endif %}
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('home_page') }}">HOME PAGE</a>
+        <a class="nav-link" href="{{ url_for('home_page') }}"><p class="menu">HOME PAGE</p></a>
+      </li>
+      {% if page_id == 'home_page' %}
+      <li class="nav-item">
+        <a class="navigation nav-link" href="#about_us"><p class="menu">ABOUT US</p></a>
       </li>
       <li class="nav-item">
-        <a class="navigation nav-link" href="#about_us">ABOUT US</a>
+        <a class="navigation nav-link" href="#events"><p class="menu">EVENTS</p></a>
       </li>
       <li class="nav-item">
-        <a class="navigation nav-link" href="#events">EVENTS</a>
+        <a class="navigation nav-link" href="#contact"><p class="menu">CONTACT</p></a>
       </li>
-      <li class="nav-item">
-        <a class="navigation nav-link" href="#contact">CONTACT</a>
-      </li>
+      {% endif %}
       {% if current_user.is_authenticated %}
       {% set id = current_user.id - 1 %}
       <li class="nav-item">
-        <a class="nav-link" href="/students/{{id}}">PROFILE</a>
+        <a class="nav-link" href="/students/{{id}}"><p class="menu">PROFILE</p></a>
       </li>
       {% endif %}
       <li class="nav-item dropdown">
@@ -44,12 +47,12 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownYourAccount">
           {% if not current_user.is_authenticated %}
-          <a class="dropdown-item" href="{{ url_for('login')}}">Log in</a>
+          <a class="dropdown-item" href="{{ url_for('login')}}"><p class="menu">Log in</p></a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{{ url_for('register') }}">Register</a>
+          <a class="dropdown-item" href="{{ url_for('register') }}"><p class="menu">Register</p></a>
           {% else %}
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{{ url_for('logout') }}">Log out</a>
+          <a class="dropdown-item" href="{{ url_for('logout') }}"><p class="menu">Log out</p></a>
         {% endif %}
         </div>
         {% if current_user.is_authenticated %}
@@ -58,11 +61,11 @@
           MENU
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
-          <a class="dropdown-item" href="{{ url_for('students')}}">Students</a>
+          <a class="dropdown-item" href="{{ url_for('students')}}"><p class="menu">Students</p></a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{{ url_for('faculties') }}">Faculties</a>
+          <a class="dropdown-item" href="{{ url_for('faculties') }}"><p class="menu">Faculties</p></a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{{ url_for('calendar') }}">Calendar</a>
+          <a class="dropdown-item" href="{{ url_for('calendar') }}"><p class="menu">Calendar</p></a>
         </div>
       </li>
       {% endif %}
