@@ -10,41 +10,6 @@ from forms import EditProfileForm, DeleteForm, SearchForm
 from models import User, Student, Faculty, Major, Subject
 
 '''
-whoosh_search
-'''
-# CHOICES = {'Student': Student,'Faculty': Faculty, 'Major': Major, 'Subject': Subject }
-#
-# @app.route('/search', methods=['GET', 'POST'])
-# @login_required
-# def search():
-#     form = SearchForm()
-#     if form.validate_on_submit():
-#         select = form.select.data
-#         search = form.search.data
-#         return search_result(select, search)
-#     return render_template('search.html', form=form)
-#
-#
-# @app.route('/search_results/<query>', methods=['GET', 'POST'])
-# @login_required
-# def search_result(select, search):
-#     qry = CHOICES[select]
-#     print(qry.surname)
-#     results = qry.query.whoosh_search(search).all()
-#     return render_template('search_results.html', results=results)
-
-
-# @app.route('/search', methods=['GET', 'POST'])
-# @login_required
-# def _search():
-#     form = SearchForm()
-#     if form.validate_on_submit():
-#         select = form.select.data
-#         search = form.search.data
-#         return search_result(select, search)
-#     return render_template('search.html', form=form)
-#
-'''
 basic search
 '''
 # CHOICES = {'Student': Student,'Faculty': Faculty, 'Major': Major, 'Subject': Subject }
@@ -80,9 +45,6 @@ basic search
 #         return redirect('/search')
 #     else:
 #         return render_template('search_results.html', students=students, results=results, qry=qry)
-
-
-
 
 # todo wszyscy studenci z danego wydziału i kierunku
 # todo nawiązywanie kontaktu z danym studentem - mail lub chat
@@ -136,6 +98,11 @@ def delete_account(id):
             return redirect('/')
     return render_template('user/delete_account.html', form=form)
 
+
+@app.route('/uploads', methods=['GET'])
+@login_required
+def uploads():
+    pass
 
 #todo login with fb & twitter
 #todo forgot password

@@ -3,18 +3,14 @@
 {% set page_id = 'register' %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-2"></div>
-
-    <div class="col-8">
-      <h3>Rejestracja</h3>
-    </div>
+    <h2>Register</h2>
 {% from "_formhelpers.html" import render_field %}
+      <div class="content">
 <form method=post>
   <dl>
       {{ form.csrf_token }}
     {{ render_field(form.username) }}
-    {{ render_field(form.email) }}
+      {{ render_field(form.email) }}
     {{ render_field(form.password) }}
     {{ render_field(form.confirm) }}
       {{ render_field(form.index) }}
@@ -24,11 +20,10 @@
       {{ render_field(form.major) }}
       {{ render_field(form.year) }}
       {{ render_field(form.group) }}
+      <br>
 
-      <p>{{ form.submit() }}</p>
+      <p>{{ form.submit(class="submit-button") }}</p>
   </dl>
 </form>
-
-    <div class="col-2"></div>
-  </div>
+          </div>
 {% endblock %}

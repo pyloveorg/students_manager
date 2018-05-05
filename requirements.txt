@@ -6,7 +6,6 @@ Flask-SQLAlchemy
 Jinja2
 MarkupSafe
 SQLAlchemy
-WTForms
 Werkzeug
 aniso8601
 bcrypt

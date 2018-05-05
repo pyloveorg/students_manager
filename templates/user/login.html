@@ -3,23 +3,17 @@
 {% set page_id = 'login' %}
 {% block nav_home %}active{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-2"></div>
-
-    <div class="col-8">
-      <h3>Login</h3>
-    </div>
+      <h2>Login</h2><br>
 {% from "_formhelpers.html" import render_field %}
+      <div class="content">
 <form method=post>
   <dl>
       {{ form.csrf_token }}
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}
   </dl>
-    {{ form.remember_me(class="btn btn-success btn-block") }}
-    <p>{{ form.submit() }}</p>
+    {{ form.remember_me(class="btn btn-success btn-block") }}<br>
+    <p>{{ form.submit(class="submit-button") }}</p>
 </form>
-
-    <div class="col-2"></div>
-  </div>
+      </div>
 {% endblock %}

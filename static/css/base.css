@@ -16,10 +16,14 @@ h1{
 h2{
     color: #cccc00;
     font-family: 'Oswald', sans-serif;
+    padding: 20px 0px 0px;
+    font-size: 60px;
+    line-height: 1.6;
 }
 
 h3{
     color: #ffffff;
+    font-family: 'Oswald', sans-serif;
 }
 
 .container-fluid{
@@ -31,6 +35,15 @@ h3{
     float: none;
     vertical-align: top;
     text-align: center;
+}
+
+.nav-item {
+    font-family: 'Oswald', sans-serif;
+    color: #ffffff;
+}
+
+.search {
+    font-family: 'Oswald', sans-serif;
 }
 
 .menu{
@@ -62,4 +75,15 @@ h3{
 
 .contact{
     background-color: #ffffff;
+}
+
+.content {
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+}
+
+.submit-button {
+    border-radius: 8px;
+    font-family: 'Oswald', sans-serif;
 }
