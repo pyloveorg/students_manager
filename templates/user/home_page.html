@@ -1,0 +1,30 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'home_page' %}
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="row no-pad">
+      <div class="col-md-4 offset-md-4">
+        <h2>CONTACT</h2>
+      </div>
+    </div>
+    <div class="row no-pad">
+      <div class="col-md-3 offset-md-2 centered">
+        <i class="fa fa-map-marker"></i>
+        <p>Address</p>
+      </div>
+      <div class="col-md-3 centered">
+        <i class="fa fa-envelope"></i>
+        <p>E-mail</p>
+      </div>
+      <div class="col-md-3 centered">
+        <i class="fa fa-phone"></i>
+        <p>Phone</p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
