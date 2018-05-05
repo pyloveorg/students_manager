@@ -5,25 +5,39 @@
   <title>Students manager</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">HOME PAGE<span class="sr-only">(current)</span></a>
+      {% if current_user.admin == True %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('admin.index')}}">ADMIN</a>
+      </li>
+      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('home_page') }}">HOME PAGE</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">ABOUT US</a>
+        <a class="navigation nav-link" href="#about_us">ABOUT US</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">EVENTS</a>
+        <a class="navigation nav-link" href="#events">EVENTS</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">CONTACT</a>
+        <a class="navigation nav-link" href="#contact">CONTACT</a>
       </li>
+      {% if current_user.is_authenticated %}
+      {% set id = current_user.id - 1 %}
+      <li class="nav-item">
+        <a class="nav-link" href="/students/{{id}}">PROFILE</a>
+      </li>
+      {% endif %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownYourAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           YOUR ACCOUNT
@@ -39,11 +53,6 @@
         {% endif %}
         </div>
         {% if current_user.is_authenticated %}
-            <li class="nav-item">
-        {% set id = current_user.id - 1 %}
-        <a class="nav-link" href="/students/{{id}}">PROFILE</a>
-      </li>
-      </li>
             <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           MENU
@@ -122,17 +131,10 @@
 
     {% block content %}{% endblock %}
   </div>
-<div style="position: absolute; top: 70px; right: 19px;">
+</div>
+<!--<div style="position: absolute; top: 70px; right: 19px;">
 <iframe src="https://open.spotify.com/embed?uri=spotify:user:filtr.pl:playlist:3PBsNJ0km6kAVbjrtpHKSO&theme=white" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-</div>
-
-<div class="fb-customerchat"
- page_id="<PAGE_ID>"
- ref="<OPTIONAL_WEBHOOK_PARAM>"
- theme_color="<HEX_COLOR_CODE>"
- logged_in_greeting="<GREETING_MESSAGE_FOR_LOGGED_IN_USERS>"
- logged_out_greeting="<GREETING_MESSAGE_FOR_LOGGED_OUT_USERS>">
-</div>
+</div> -->
 <!---       google search        -->
 {#<script>#}
 {#  (function() {#}
@@ -147,5 +149,8 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script src="{{ url_for('static', filename='js/do.js') }}"></script>
+
 </body>
 </html>
