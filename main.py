@@ -15,6 +15,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students_manager.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECURITY_PASSWORD_SALT'] = 'plaintext'
 
+app.config['RECAPTCHA_PUBLIC_KEY'] = '6LdbkFcUAAAAAL2WygPKZyOyEMoYF246X_otCf1A'
+app.config['RECAPTCHA_PRIVATE_KEY'] = '6LdbkFcUAAAAAIvppfkrZEJQYdaLo4CtNIdphgyO'
+
+
 app.config.update(dict(
     DEBUG = True,
     MAIL_SERVER = 'smtp.gmail.com',
@@ -45,5 +49,6 @@ if __name__ == '__main__':
     from faculties import *
     from user import *
     from subjects import *
+    import errors
     app.secret_key = "super secret key"
     app.run(debug=True, port=5000)

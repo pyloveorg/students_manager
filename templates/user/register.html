@@ -1,3 +1,7 @@
+<head>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+
 {% extends "_base.html" %}
 
 {% set page_id = 'register' %}
@@ -20,8 +24,7 @@
       {{ render_field(form.major) }}
       {{ render_field(form.year) }}
       {{ render_field(form.group) }}
-      <br>
-
+      {{ render_field(form.recaptcha) }}
       <p>{{ form.submit(class="submit-button") }}</p>
   </dl>
 </form>

@@ -3,10 +3,11 @@ from main import app, db, lm
 from flask import render_template, redirect, request, flash, url_for,jsonify
 from flask_login import login_required, logout_user, login_user, current_user
 from forms import LoginForm, RegistrationForm, ChangePasswordForm
-from models import User, Student, Faculty, Major, Year
+from models import User, Student
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
 from main import bcrypt
+import urllib.request as urllib2
 
 import json
 
@@ -102,20 +103,17 @@ def unconfirmed():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    try:
-        if request.method == 'POST':
-            if form.validate_on_submit():
-                user = User.query.filter_by(username=form.username.data).first()
-                if user is None:
-                    flash('Invalid credentials')
-                    return redirect('/login')
-                else:
-                    if user.is_correct_password(form.password.data):
-                        login_user(user, remember=form.remember_me.data)
-                        flash('Logged in successfully.')
-                        return redirect('/')
-    except Exception:
-        print('elo')
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
+            if user is None:
+                flash('Invalid credentials')
+                return redirect('/login')
+            else:
+                if user.is_correct_password(form.password.data):
+                    login_user(user, remember=form.remember_me.data)
+                    flash('Logged in successfully.')
+                    return redirect('/')
     else:
         return render_template('user/login.html', form=form)
 
@@ -151,17 +149,10 @@ def change_password():
 def calendar():
     return render_template('calendar.html', date=datetime.utcnow())
 
+
 @app.route('/data')
 def return_data():
-    # start_date = request.args.get('start', '')
-    # end_date = request.args.get('end', '')
-
     #trzeba podać ścieżkę absolutną, bo u mnie nie działa
     with open('/Users/Kamila/PycharmProjects/students_manager/events', 'r') as file:
         data = json.load(file)
         return jsonify(data)
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('errors/404.html'), 404
