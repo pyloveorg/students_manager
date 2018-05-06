@@ -13,5 +13,9 @@
 {%- endfor %}
 </ul>
     </div>
-
+<h2>Upload files</h2>
+<form method=post enctype=multipart/form-data>
+    <input type=file name=file style="color: white">
+    <input type="submit">
+</form>
 {% endblock %}
