@@ -44,6 +44,12 @@ admin = Admin(app, name='students_manager', template_mode='bootstrap3')
 
 app.static_path = path.join(path.abspath(__file__), 'static')
 
-if __name__ == '__main__':l
+if __name__ == '__main__':
+    from views.students import *
+    from views.faculties import *
+    from views.user import *
+    from views.subjects import *
+    from views.upload import *
+    import errors
     app.secret_key = "super secret key"
     app.run(debug=True, port=5000)
