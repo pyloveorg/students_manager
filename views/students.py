@@ -98,12 +98,6 @@ def delete_account(id):
             return redirect('/')
     return render_template('user/delete_account.html', form=form)
 
-
-@app.route('/uploads', methods=['GET'])
-@login_required
-def uploads():
-    pass
-
 @app.route('/schedule', methods=['GET'])
 @login_required
 def schedule():
