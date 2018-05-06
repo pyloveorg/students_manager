@@ -35,23 +35,10 @@ def make_tree(path):
     return tree
 
 
-@app.route('/notes', methods=['GET', 'POST'])
+@app.route('/notes')
 def all_files():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = u.secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('all_files'))
-    else:
-        path = os.path.expanduser(u'~')
-        return render_template('dirtree.html', tree=make_tree(path))
+    path = os.path.expanduser(u'~')
+    return render_template('dirtree.html', tree=make_tree(path))
 
 
 @app.route('/notes/upload', methods=['GET', 'POST'])
@@ -67,11 +54,14 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = u.secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            return redirect(url_for('all_files'))
     return render_template('upload.html')
 
 
+@app.route('/notes/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 @app.route('/files/<filename>')
 def red(filename):

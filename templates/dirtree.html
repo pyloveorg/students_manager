@@ -1,6 +1,6 @@
 {% extends "_base.html" %}
 
-{% set page_id = 'login' %}
+{% set page_id = 'dirtree' %}
 {% block content %}
 <h2>Notes</h2>
     <div class="content">
@@ -12,10 +12,6 @@
     {%- endif %}</li>
 {%- endfor %}
 </ul>
+        <button><a href="{{ url_for('upload_file') }}">Upload file</a></button>
     </div>
-<h2>Upload files</h2>
-<form method=post enctype=multipart/form-data>
-    <input type=file name=file style="color: white">
-    <input type="submit">
-</form>
 {% endblock %}
