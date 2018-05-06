@@ -7,7 +7,7 @@ from models import User, Student
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
 from main import bcrypt
-import urllib.request as urllib2
+# import urllib.request as urllib2
 
 import json
 
@@ -103,17 +103,20 @@ def unconfirmed():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            user = User.query.filter_by(username=form.username.data).first()
-            if user is None:
-                flash('Invalid credentials')
-                return redirect('/login')
-            else:
-                if user.is_correct_password(form.password.data):
-                    login_user(user, remember=form.remember_me.data)
-                    flash('Logged in successfully.')
-                    return redirect('/')
+    try:
+        if request.method == 'POST':
+            if form.validate_on_submit():
+                user = User.query.filter_by(username=form.username.data).first()
+                if user is None:
+                    flash('Invalid credentials')
+                    return redirect('/login')
+                else:
+                    if user.is_correct_password(form.password.data):
+                        login_user(user, remember=form.remember_me.data)
+                        flash('Logged in successfully.')
+                        return redirect('/')
+    except Exception as e:
+        return redirect('/login')
     else:
         return render_template('user/login.html', form=form)
 

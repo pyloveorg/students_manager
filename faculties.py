@@ -144,5 +144,5 @@ def plan(id1, id2, id3, id4):
     '''
 # todo model z planem
     #plan =
-    return render_template('plan.html', plan=plan)
+    return render_template('schedule.html', plan=plan)
 

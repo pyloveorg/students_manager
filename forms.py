@@ -50,7 +50,7 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
+    username = StringField('Username', [validators.InputRequired(), validators.Length(min=5, max=25)])
     password = PasswordField('Password', [validators.InputRequired(), validators.Length(min=5, max=25)])
     remember_me = BooleanField('Remember Me', default=True)
     submit = SubmitField('Submit')

@@ -1,7 +1,7 @@
 __author__ = 'Kamila Urbaniak, Paulina Gralak'
 
 from datetime import *
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 
 from sqlalchemy import Column
 from sqlalchemy.types import Integer
@@ -12,6 +12,10 @@ from main import bcrypt, db
 from hashlib import md5
 from flask_admin.contrib.sqla import ModelView
 from main import admin
+from flask.ext.admin.contrib.fileadmin import FileAdmin
+import os.path as op
+
+path = op.join(op.dirname(__file__), 'files')
 
 '''
 konto admina:
@@ -98,7 +102,7 @@ class User(db.Model, UserMixin):
             format(digest, size)
 
     def __repr__(self):
-        return "User(id={}, email={}, password={}, admin={}".\
+        return "{} {} {} {}".\
             format(self.id, self.email, self.password, self.admin)
 
 
@@ -126,10 +130,8 @@ class Student(db.Model):
         self.group = group
 
     def __repr__(self):
-        return "Student(id={}, index={}, name={}, surname={}, faculty={}, year={}, group={}".\
-            format(self.id, self.index, self.name, self.surname, self.faculty, self.year, self.group)
-
-#wa.whoosh_index(app, Student)
+        return "{} {} {} {} {} {}".\
+            format(self.index, self.name, self.surname, self.faculty, self.year, self.group)
 
 
 class Faculty(db.Model):
@@ -221,7 +223,7 @@ class Secretary(db.Model):
         self.email = email
 
     def __repr__(self):
-        return "{0} {1}".format(self.name, self.surname)
+        return "{} {}".format(self.name, self.surname)
 
 
 class Subject(db.Model):
@@ -235,7 +237,7 @@ class Subject(db.Model):
         self.name = name
 
     def __repr__(self):
-        return "Subject(id={}, name={}".\
+        return "{} {}".\
             format(self.id, self.name)
 
 
@@ -253,7 +255,16 @@ class Lecture(db.Model):
         self.consult = consult
 
     def __repr__(self):
-        return "name={}, surname={}".format(self.name, self.surname)
+        return "{} {}".format(self.name, self.surname)
+
+
+class ModelView(ModelView):
+    def is_accessible(self):
+        if (not current_user.is_active or not
+        current_user.is_authenticated or current_user.admin == False):
+            return False
+        return True
+
 
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Student, db.session))
@@ -263,3 +274,5 @@ admin.add_view(ModelView(Year, db.session))
 admin.add_view(ModelView(Group, db.session))
 admin.add_view(ModelView(Subject, db.session))
 admin.add_view(ModelView(Secretary, db.session))
+
+admin.add_view(FileAdmin(path, '/files/', name='Files'))

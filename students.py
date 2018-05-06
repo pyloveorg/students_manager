@@ -104,6 +104,11 @@ def delete_account(id):
 def uploads():
     pass
 
+@app.route('/schedule', methods=['GET'])
+@login_required
+def schedule():
+    return render_template('schedule.html')
+
 #todo login with fb & twitter
 #todo forgot password
 #todo szukaj
