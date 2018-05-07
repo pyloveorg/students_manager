@@ -5,63 +5,71 @@
 
 {% block content %}
 
-  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4" align="center">
         <h1>STUDENTS MANAGER</h1>
       </div>
-      <div class="col-md-9" style="padding: 0px">
-        <img id="welcome_image" src="{{ url_for('static', filename='img/welcome3.jpg') }}">
+      <div class="col-md-8" style="padding: 0px">
+        <img id="welcome_image" class="img-fluid" src="{{ url_for('static', filename='img/welcome3.jpg') }}">
       </div>
     </div>
 
       <div id="about_us" class="row justify-content-center">
-        <div class="col-md-2">
+        <div class="col-md-4">
           <h2>OUR TEAM</h2>
         </div>
       </div>
-        <div class="row justify-content-center contact">
-          <div class="offset-md-1 col-md-5">
-            <img class="team_img" src="{{ url_for('static', filename='img/paulina.jpg') }}">
+      <div class="row justify-content-center white">
+          <div class="col-md-5 div_our_photos overlay" align="center">
+            <img class="team_img img-fluid" src="{{ url_for('static', filename='img/paulina.jpg') }}">
+            <div class="centered">
+              <h4>Paulina</h4>
+              <hr>
+              <h5>FRONT-END</h5>
+            </div>
           </div>
-          <div class="col-md-5">
-            <img class="team_img" src="{{ url_for('static', filename='img/kamila.jpg') }}">
+          <div class="col-md-5 div_our_photos" align="center">
+            <img class="team_img img-fluid" src="{{ url_for('static', filename='img/kamila.jpg') }}">
+            <div class="centered">
+              <h4>Kamila</h4>
+              <hr>
+              <h5>BACK-END</h5>
+            </div>
           </div>
         </div>
 
     <div id="events" class="row justify-content-center">
-      <div class="col-md-2">
+      <div class="col-md-4">
         <h2>EVENTS</h2>
       </div>
     </div>
 
     <div id="contact" class="row justify-content-center">
-      <div class="col-md-2">
+      <div class="col-md-4">
         <h2>CONTACT</h2>
       </div>
     </div>
-    <div class="row justify-content-center contact">
-      <div class="col-md-3">
+    <div id="contact-data" class="row justify-content-center white">
+      <div class="col-md-4" align="center">
         <i class="fa fa-map-marker"></i>
-        <p>Address</p>
+        <h5>Address</h5>
         <p>
           Aaa Bbb<br>
           ul. Ccc<br>
           00 - 000 Poznań
         </p>
       </div>
-      <div id="email" class="col-md-3 contact">
+      <div id="email" class="col-md-4 contact" align="center">
         <i class="fa fa-envelope"></i>
-        <p>E-mail</p>
+        <h5>E-mail</h5>
         <p>xxx.yyy@gmail.com</p>
       </div>
-      <div class="col-md-3 contact">
+      <div class="col-md-4 contact" align="center">
         <i class="fa fa-phone"></i>
-        <p>Phone</p>
+        <h5>Phone</h5>
         <p>000 000 000</p>
       </div>
     </div>
-  </div>
 
 
 {% endblock %}

@@ -12,7 +12,8 @@ from main import bcrypt, db
 from hashlib import md5
 from flask_admin.contrib.sqla import ModelView
 from main import admin
-from flask.ext.admin.contrib.fileadmin import FileAdmin
+#from flask.ext.admin.contrib.fileadmin import FileAdmin
+from flask_admin.contrib.fileadmin import FileAdmin
 import os.path as op
 
 path = op.join(op.dirname(__file__), 'files')
