@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'avatar' %}
+{% block content %}
+    <h2>Change avatar</h2>
+    <div class="content">
+<form method=post enctype=multipart/form-data>
+    <input type=file name=file style="color: white">
+    <input type="submit" style="border-radius: 8px">
+</form>
+    </div>
+{% endblock %}

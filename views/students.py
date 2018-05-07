@@ -98,6 +98,12 @@ def delete_account(id):
             return redirect('/')
     return render_template('user/delete_account.html', form=form)
 
+# zmiana avataru
+@app.route('/students/<int:id>/edit_profile/', methods=['GET','POST'])
+@login_required
+def change_avatar(id):
+    return render_template('faculty/students/change_avatar.html')
+
 @app.route('/schedule', methods=['GET'])
 @login_required
 def schedule():

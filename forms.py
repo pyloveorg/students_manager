@@ -85,7 +85,7 @@ class ForgotPasswordForm(FlaskForm):
             return False
         return True
 
-    submit = SubmitField('Submit')
+    button = SubmitField('Forgot password')
 
 
 class EditProfileForm(FlaskForm):

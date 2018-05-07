@@ -2,7 +2,7 @@ from main import app, db, lm
 
 from flask import render_template, redirect, request, flash, url_for,jsonify
 from flask_login import login_required, logout_user, login_user, current_user
-from forms import LoginForm, RegistrationForm, ChangePasswordForm
+from forms import LoginForm, RegistrationForm, ChangePasswordForm, ForgotPasswordForm
 from models import User, Student
 from my_email import send_email
 from tokens import generate_confirmation_token, confirm_token
@@ -146,6 +146,13 @@ def change_password():
         else:
             flash('Your current password is incorrect.', 'success')
     return render_template('user/change_password.html', form=form)
+
+
+@app.route('/forgot-password', methods=['GET', 'POST'])
+@login_required
+def forgot_password():
+    form = ForgotPasswordForm()
+    return render_template('user/forgot_password.html', form=form)
 
 
 @app.route('/calendar', methods=['GET', 'POST'])
