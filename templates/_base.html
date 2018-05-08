@@ -29,13 +29,13 @@
       <li class="nav-item">
         <a class="navigation nav-link" href="#about_us"><p class="menu">ABOUT US</p></a>
       </li>
-      {% endif %}
       <li class="nav-item">
         <a class="navigation nav-link" href="#events"><p class="menu">EVENTS</p></a>
       </li>
       <li class="nav-item">
         <a class="navigation nav-link" href="#contact"><p class="menu">CONTACT</p></a>
       </li>
+      {% endif %}
 
       {% if current_user.is_authenticated and current_user.admin == False %}
       {% set id = current_user.id - 1 %}
@@ -54,16 +54,14 @@
           <a class="dropdown-item" href="{{ url_for('faculties') }}"><p class="menu">FACULTIES</p></a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ url_for('schedule')}}"><p class="menu">SCHEDULE</p></a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ url_for('calendar') }}"><p class="menu">CALENDAR</p></a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ url_for('all_files') }}"><p class="menu">NOTES</p></a>
         </div>
       </li>
-            <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('calendar') }}"><p class="menu">CALENDAR</p></a>
-      </li>
-            <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('all_files') }}"><p class="menu">NOTES</p></a>
-      </li>
-
       {% endif %}
+
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownYourAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           YOUR ACCOUNT
@@ -87,43 +85,7 @@
       </div>
   </div>
 </nav>
-{##}
-{# <!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark">#}
-{#    <a class="navbar-brand" href="#">Students manager</a>#}
-{#    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"#}
-{#            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">#}
-{#      <span class="navbar-toggler-icon"></span>#}
-{#    </button>#}
-{##}
-{##}
-{#    <div class="collapse navbar-collapse">#}
-{#      <ul class="navbar-nav mr-auto">#}
-{#      <ul class="nav navbar-nav">#}
-{#      {% if current_user.admin == True %}#}
-{#              <li><a class="nav-link" href="{{ url_for('admin.index')}}">Admin</a></li>#}
-{#            {% endif %}#}
-{#      {% set id = current_user.id - 1 %}#}
-{##}
-{#          {% if current_user.is_authenticated %}#}
-{#              <li><a class="nav-link" href="{{ url_for('calendar')}}">Calendar</a></li>#}
-{#              <li><a class="nav-link" href="{{ url_for('students')}}">Students</a></li>#}
-{#              <li><a class="nav-link" href="/students/{{id}}">Profile</a></li>#}
-{#              <li><a class="nav-link" href="{{ url_for('faculties')}}">Faculties</a></li>#}
-{#              <li><a class="nav-link" href="{{ url_for('search')}}">Search</a></li>#}
-{#              <li><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>#}
-{#          {% else %}#}
-{#          <li><a class="nav-link" href="{{ url_for('login')}}">Log in</a></li>#}
-{#              <li><a class="nav-link" href="{{ url_for('register') }}">Registration</a></li>#}
-{#        </li>#}
-{#          {% endif %}#}
-{#            {% block extra_nav %}{% endblock %}#}
-{#      </ul>#}
-{#        </li>#}
-{#      </ul>#}
-{#    </div>#}
-{#  </nav> -->#}
 
-  <div class="container">
     <div class="row">
       <div class="col-12">
         <div id="messages">
@@ -144,7 +106,7 @@
     </div>
 
     {% block content %}{% endblock %}
-  </div>
+
 </div>
 {#<div style="position: absolute; top: 70px; right: 19px;">#}
 {#<iframe src="https://open.spotify.com/embed?uri=spotify:user:filtr.pl:playlist:3PBsNJ0km6kAVbjrtpHKSO&theme=white" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>#}
