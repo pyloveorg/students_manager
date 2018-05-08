@@ -56,6 +56,7 @@ class User(db.Model, UserMixin):
     about_me = Column(String(140))
     last_seen = Column(DateTime, default=datetime.utcnow)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), unique=True)
+    social_id = db.Column(db.String(64), nullable=False, unique=True)
 
 
     def __init__(self, username, email, password, admin, confirmed=False,
