@@ -122,6 +122,16 @@ hr{
     opacity: 1;
 }
 
+.centered h4{
+    color: #cccc00;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+.centered h5{
+    color: #cccc00;
+    text-shadow: 1px 1px 2px #000000;
+}
+
 /*.div_our_photos:hover img{
     mix-blend-mode: multiply;
     background: #cccc00;
