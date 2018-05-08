@@ -16,9 +16,13 @@ h1{
 h2{
     color: #cccc00;
     font-family: 'Oswald', sans-serif;
-    padding: 20px 0px 0px;
     font-size: 60px;
-    line-height: 1.6;
+    text-shadow: 1px 1px 3px #262626;
+    padding: 50px;
+}
+
+#events h2{
+    text-shadow: 1px 1px 3px #ffffff;
 }
 
 h3{
@@ -35,8 +39,22 @@ h4{
     line-height: 1.6;
 }
 
-.container-fluid{
-    padding: 0px;
+h4{
+    color: #262626;
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+    padding-top: 25px;
+    position: relative;
+}
+
+h5{
+    color: #262626;
+    font-family: 'Oswald', sans-serif;
+    font-size: 25px;
+}
+
+hr{
+    color: #cccc00;
 }
 
 .navbar{
@@ -65,24 +83,73 @@ h4{
 
 #welcome_image{
     width: 100%;
-    height: 670px;
+    height: 100%;
+    z-index: -1;
 }
 
 #about_us{
     background-color: #ffffff;
+    text-align: center;
 }
 
 .team_img{
     height: 300px;
     width: 300px;
+    position: relative;
+    border-radius: 10px;
+}
+
+.team_img:hover{
+    opacity: 0.5;
+}
+
+.div_our_photos{
+    padding: 30px;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+.centered:hover {
+    opacity: 1;
+}
+
+/*.div_our_photos:hover img{
+    mix-blend-mode: multiply;
+    background: #cccc00;
+    opacity: 0.5;
+}
+
+.div_our_photos:hover{
+    background: #cccc00;
+}*/
+
+
+#events{
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
 }
 
 
 #contact{
     background-color: #ffffff;
+    text-align: center;
 }
 
-.contact{
+#contact-data p{
+    color: #262626;
+    padding: 20px;
+}
+
+.white{
     background-color: #ffffff;
 }
 
@@ -90,6 +157,13 @@ h4{
     color: white;
     font-family: 'Oswald', sans-serif;
     font-size: 20px;
+}
+
+.fa{
+    font-size: 110px;
+    color: #262626;
+    text-shadow:5px 5px 10px #000000;
+    padding-bottom: 20px;
 }
 
 .submit-button {
