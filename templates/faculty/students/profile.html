@@ -1,13 +1,12 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-            <br>
-        <p><a href="{{ url_for('change_avatar', id=student.id) }}"><img src="{{ user.avatar(128) }}"></a></p>
-
-            <h3>{{ user.username }}</h3>
-        <div class="content">
+    <div class="row">
+        <div class="offset-md-2 col-md-2">
+            <img class="avatar" src="{{ user.avatar(128) }}">
+        </div>
+        <div class="content col-md-4">
+            <h5 style="color: #cccc00">{{ user.username }}</h5>
             <p> Index: {{ student.index }}</p>
             <p> Name: {{ student.name }}</p>
             <p> Surname: {{ student.surname }}</p>
@@ -15,17 +14,18 @@
             <p> Major: {{ student.major.name }}</p>
             <p> Year: {{ student.year.nr }}</p>
             <p> Group: {{ student.group.name }}</p>
-            <h4><a class="u-email" href="mailto:{{ user.email }}">{{ user.email }}</a></h4>
-            {% if user.about_me %}<p>About me: {{ user.about_me }}</p>{% endif %}
-                {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}
-        <br>
+            <p><a class="u-email" href="mailto:{{ user.email }}">{{user.email }}</a></p>
+            {% if user.about_me %}<p>About me: {{ user.about_me }}</p>{%endif %}
+                {% if user.last_seen %}<p>Last seen on: {{ user.last_seen}}</p>{% endif %}
+        </div>
+        <div class="content col-md-2">
         {% if user == current_user %}
-                <p><a href="{{ url_for('edit_profile', id=student.id)}}">Edit your profile</a></p>
-                <p><a href="{{ url_for('change_password', id=student.id)}}">Change your password</a></p>
-                <p><a href="{{ url_for('delete_account', id=student.id)}}">Delete your account</a></p>
+                <p><a href="{{ url_for('edit_profile',
+id=student.id)}}">Edit your profile</a></p>
+                <p><a href="{{ url_for('delete_account',
+id=student.id)}}">Delete your account</a></p>
         {% endif %}
-</div>
-        </tr>
-    </table>
+        </div>
+    </div>
     <hr>
 {% endblock %}

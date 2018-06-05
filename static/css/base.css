@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 
 body{
-    background-color: #262626;
+    background-color: #333333;
     padding-top: 55px;
 }
 
@@ -17,7 +17,7 @@ h2{
     color: #cccc00;
     font-family: 'Oswald', sans-serif;
     font-size: 60px;
-    text-shadow: 1px 1px 3px #262626;
+    text-shadow: 1px 1px 3px #333333;
     padding: 50px;
 }
 
@@ -48,7 +48,7 @@ h4{
 }
 
 h5{
-    color: #262626;
+    color: #333333;
     font-family: 'Oswald', sans-serif;
     font-size: 25px;
 }
@@ -155,7 +155,7 @@ hr{
 }
 
 #contact-data p{
-    color: #262626;
+    color: #333333;
     padding: 20px;
 }
 
@@ -171,7 +171,7 @@ hr{
 
 .fa{
     font-size: 110px;
-    color: #262626;
+    color: #333333;
     text-shadow:5px 5px 10px #000000;
     padding-bottom: 20px;
 }
