@@ -52,4 +52,4 @@ if __name__ == '__main__':
     from views.upload import *
     import errors
     app.secret_key = "super secret key"
-    app.run(debug=True, port=5000)
+    app.run('0.0.0.0', 8080)
