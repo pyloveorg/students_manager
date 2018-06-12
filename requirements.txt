@@ -1,14 +1,13 @@
-Flask
-Flask-Bcrypt
-Flask-Login
+Flask == 1.0.2
+Flask-Bcrypt == 0.7.1
+Flask-Login ==0.4.1
 Flask-RESTful
-Flask-SQLAlchemy
-Jinja2
+Flask-SQLAlchemy ==2.3.2
+Jinja2 ==2.10
 MarkupSafe
-SQLAlchemy
+SQLAlchemy ==1.2.6
 Werkzeug
 aniso8601
-bcrypt
 blinker
 cffi
 itsdangerous
@@ -19,3 +18,5 @@ six
 wtforms_html5
 cryptography
 Flask-Admin == 1.5.1
+Flask-Mail==0.9.1
+itsdangerous==0.24
