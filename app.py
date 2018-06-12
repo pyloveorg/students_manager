@@ -3,12 +3,12 @@ __author__ = 'Kamila Urbaniak, Paulina Gralak'
 from os import path
 
 from flask import Flask
-from flask_admin import Admin
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from itsdangerous import URLSafeTimedSerializer
+from flask_admin import Admin
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students_manager.db'
