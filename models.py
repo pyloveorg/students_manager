@@ -8,10 +8,10 @@ from sqlalchemy.types import Integer
 from sqlalchemy.types import String
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import DateTime
-from main import bcrypt, db
+from app import bcrypt, db
 from hashlib import md5
 from flask_admin.contrib.sqla import ModelView
-from main import admin
+from app import admin
 #from flask.ext.admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.fileadmin import FileAdmin
 import os.path as op

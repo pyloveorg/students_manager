@@ -1,4 +1,4 @@
-from main import app
+from app import app
 
 from flask import render_template, redirect
 from flask_login import login_required

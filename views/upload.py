@@ -1,5 +1,5 @@
 import flask_uploads as u
-from main import app
+from app import app
 from flask import request, render_template, redirect, flash, url_for, send_from_directory, send_file
 import os
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-from main import app, db
+from app import app, db
 from sqlalchemy import func, or_
 
 

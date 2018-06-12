@@ -1,7 +1,7 @@
 __author__ = 'Kamila Urbaniak, Paulina Gralak'
 
 from sqlalchemy import create_engine
-from main import db
+from app import db
 import models
 import json
 
