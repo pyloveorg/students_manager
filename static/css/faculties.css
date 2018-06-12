@@ -1,15 +1,14 @@
-#div_students{
+#div_faculty{
     text-align: center;
+    padding: 40px;
 }
 
-#div_students a{
+#div_faculty a{
     color: #ffffff;
 }
 
 
-#div_students a:hover{
+#div_faculty a:hover{
     text-decoration: none;
     color: #cccc00;
 }
-
-

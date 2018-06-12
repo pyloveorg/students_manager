@@ -1,17 +1,15 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-        <br>
-            {% for faculty in faculties %}
-                <ol>
-                    <a href="/faculties/{{ faculty.id }}">{{ faculty.name }}</a>
-                </ol>
-            {% endfor %}
 
-        </tr>
-    </table>
-    <hr>
+    <div class="row">
+        {% for faculty in faculties %}
+            <div id="div_faculty" class="col-md-3">
+                <a href="/faculties/{{ faculty.id }}">{{ faculty.name }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+
 {% endblock %}
 
