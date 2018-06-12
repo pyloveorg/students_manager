@@ -18,3 +18,4 @@ pytz
 six
 wtforms_html5
 cryptography
+flask_admin
