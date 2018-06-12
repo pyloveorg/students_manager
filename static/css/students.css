@@ -1,0 +1,14 @@
+#div_students{
+    text-align: center;
+}
+
+#div_students a{
+    color: #ffffff;
+}
+
+
+#div_students a:hover{
+    color: #cccc00;
+}
+
+

@@ -1,17 +1,19 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-        <br>
-            {% for student in students %}
-                <ol>
-                    <a href="/students/{{ student.id }}">{{ student.name }} {{ student.surname }}</a>
-                </ol>
-            {% endfor %}
 
-        </tr>
-    </table>
-    <hr>
+    <div class="row">
+        {% for student in students %}
+            <div id="div_students" class="col-md-4">
+                {% for user in users %}
+                {% if student.id == user.id %}
+                <img class="avatar" src="{{ user.avatar(128) }}">
+                <a href="/students/{{ student.id }}">{{ student.name }} {{ student.surname }}</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
 

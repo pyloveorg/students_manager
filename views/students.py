@@ -52,7 +52,8 @@ basic search
 @login_required
 def students():
     students = Student.query.all()
-    return render_template('faculty/students/students.html', students=students)
+    users = User.query.all()
+    return render_template('faculty/students/students.html', students=students, users=users)
 
 
 # profil danego studenta
