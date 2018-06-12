@@ -18,4 +18,4 @@ pytz
 six
 wtforms_html5
 cryptography
-Flask-Admin
+Flask-Admin == 1.5.1
