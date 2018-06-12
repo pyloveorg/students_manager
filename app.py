@@ -7,8 +7,8 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
-from itsdangerous import URLSafeTimedSerializer
 from flask_admin import Admin
+from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students_manager.db'
