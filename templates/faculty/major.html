@@ -1,13 +1,13 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-        <br><br>
-                    {{ major.name }}
-                    <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years">Roczniki</a>
-        </tr>
-    </table>
-    <hr>
+
+    <div class="row">
+        <div class="col" align="center">
+            <h2>{{ major.name }}</h2>
+            <a id="a_years" href="/faculties/{{ id1 }}/majors/{{ id2 }}/years">Years</a>
+        </div>
+    </div>
+
 {% endblock %}
 

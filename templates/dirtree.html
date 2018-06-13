@@ -2,16 +2,27 @@
 
 {% set page_id = 'dirtree' %}
 {% block content %}
-<h2>Notes</h2>
+
+    <div class="row">
+        <div class="col" align="center">
+            <h2>NOTES</h2>
+        </div>
+    </div>
     <div class="content">
-<ul>
+
+     <div class="row">
+         <div class="col" align="center">
+             <button><a href="{{ url_for('upload_file') }}">Upload file</a></button>
+         </div>
+     </div>
+
+    <ul>
 {%- for item in tree.children recursive %}
     <li><a href="notes/{{ item.name }}"> {{ item.name }} </a>
     {%- if item.children -%}
         <ul>{{ loop(item.children) }}</ul>
     {%- endif %}</li>
 {%- endfor %}
-</ul>
-        <button><a href="{{ url_for('upload_file') }}">Upload file</a></button>
+    </ul>
     </div>
 {% endblock %}

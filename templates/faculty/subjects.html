@@ -1,17 +1,19 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-        <br>
-            {% for subject in subjects %}
-                <ol>
-                    <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups/{{ id4 }}/subjects/{{ subject.id }}">{{ subject.name }}</a>
-                </ol>
-            {% endfor %}
 
-        </tr>
-    </table>
-    <hr>
+    <div class="row">
+        <div class="col" align="center">
+            <h2>SUBJECTS</h2>
+        </div>
+    </div>
+    <div class="row">
+        {% for subject in subjects %}
+            <div id="div_majors" class="col-md-3">
+                <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups/{{ id4 }}/subjects/{{ subject.id }}">{{ subject.name }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
 

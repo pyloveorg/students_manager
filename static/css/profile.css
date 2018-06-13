@@ -1,3 +1,21 @@
 .avatar{
     padding: 20px;
 }
+
+.u-email{
+    color: #ffffff;
+}
+
+.u-email:hover{
+    text-decoration: none;
+    color: #cccc00;
+}
+
+.profile_options{
+    color: #ffffff;
+}
+
+.profile_options:hover{
+    text-decoration: none;
+    color: #cccc00;
+}

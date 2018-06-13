@@ -1,13 +1,13 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-        <br><br>
-                    {{ group.name }}
-            <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups/{{ id4 }}/subjects">Zajęcia</a>
-        </tr>
-    </table>
-    <hr>
+
+    <div class="row">
+        <div class="col" align="center">
+            <h2>GROUP {{ group.name }}</h2>
+            <a id='a_subjects' href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups/{{ id4 }}/subjects">Subjects</a>
+        </div>
+    </div>
+
 {% endblock %}
 

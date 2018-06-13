@@ -1,17 +1,20 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-        <br>
-            {% for group in groups %}
-                <ol>
-                    <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups/{{ group.id }}">{{ group.name }}</a>
-                </ol>
-            {% endfor %}
 
-        </tr>
-    </table>
-    <hr>
+    <div class="row">
+        <div class="col" align="center">
+            <h2>GROUPS</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for group in groups %}
+            <div id="div_groups" class="col-md-3">
+                <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups/{{ group.id }}">{{ group.name }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
 

@@ -1,19 +1,19 @@
-#div_faculty{
+#div_majors{
     text-align: center;
     padding: 40px;
 }
 
-#div_faculty a{
+#div_majors a{
     color: #ffffff;
 }
 
 
-#div_faculty a:hover{
+#div_majors a:hover{
     text-decoration: none;
     color: #cccc00;
 }
 
-#a_majors {
+#a_years {
     text-decoration: none;
     color: #ffffff;
 }

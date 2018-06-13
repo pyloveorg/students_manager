@@ -1,17 +1,14 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-        <br>
-            {% for major in majors %}
-                <ol>
-                    <a href="/faculties/{{ id1 }}/majors/{{ major.id }}">{{ major.name }}</a>
-                </ol>
-            {% endfor %}
 
-        </tr>
-    </table>
-    <hr>
+    <div class="row">
+        {% for major in majors %}
+            <div id="div_majors" class="col-md-3">
+                <a href="/faculties/{{ id1 }}/majors/{{ major.id }}">{{ major.name }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
 

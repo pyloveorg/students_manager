@@ -1,13 +1,14 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-        <br><br>
-                    {{ year.nr }}
-                    <a href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups">Grupy</a>
-        </tr>
-    </table>
-    <hr>
+
+    <div class="row">
+        <div class="col" align="center">
+            <h2>YEAR {{ year.nr }}</h2>
+            <a id="a_groups" href="/faculties/{{ id1 }}/majors/{{ id2 }}/years/{{ id3 }}/groups">GROUPS</a>
+        </div>
+    </div>
+
+
 {% endblock %}
 
