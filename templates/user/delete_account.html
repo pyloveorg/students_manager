@@ -1,28 +1,26 @@
 {% extends "_base.html" %}
 
-{% set page_id = 'delete' %}
-
 {% block content %}
-  <div class="row">
-    <div class="col-2"></div>
+    <style>
+    .content{
+        padding: 20px 500px 0px;
+    }
+    </style>
+    <form action="" method="post">
 
-    <div class="col-8">
-        <br>
-      <h3>Delete your account</h3><br>
-    </div>
-{% from "_formhelpers.html" import render_field %}
-      <div class="content">
-<form method=post>
+        <div class="content">
+      <h2>Delete your account</h2><
+    {% from "_formhelpers.html" import render_field %}
   <dl>
       {{ form.csrf_token }}
-      Are you absolutely sure?
+     <p>Are you absolutely sure?
       Please type in the password of your account to confirm.
-      <br>
-      <br>
+     </p>
+      <p>
     {{ render_field(form.password) }}
-
+</p>
       <p>{{ form.submit() }}</p>
   </dl>
-</form>
           </div>
+            </form>
 {% endblock %}

@@ -4,10 +4,6 @@
 
 {% extends "_base.html" %}
 
-{% set page_id = 'register' %}
-
-{% block content %}
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 
@@ -41,9 +37,15 @@ ul.breadcrumb li a:hover {
   <li><a href="{{ url_for('home_page') }}">Home</a></li>
   <li>Register</li>
 </ul>
-    <h2>Register</h2>
+{% block content %}
+<style>
+    .content {
+        padding: 20px 500px 0px;
+    }
+</style>
 {% from "_formhelpers.html" import render_field %}
       <div class="content">
+      <h2>Register</h2>
 <form method=post>
   <dl>
       {{ form.csrf_token }}

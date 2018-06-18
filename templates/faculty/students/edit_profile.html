@@ -1,8 +1,16 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <h1>Edit Profile</h1>
+    <style>
+    .content{
+        padding: 20px 500px 0px;
+    }
+    </style>
     <form action="" method="post">
+
+
+     <div class="content">
+          <h2>Edit Profile</h2>
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
@@ -13,6 +21,7 @@
             {{ form.about_me(cols=50, rows=4) }}<br>
         </p>
         <p>{{ form.submit() }}</p>
-        <p><button><a href="{{ url_for('students', id=user.student.index)}}">Back</a></button></p>
+         <p><button><a href="{{ url_for('students', id=user.student.index)}}">Back</a></button></p>
+     </div>
     </form>
 {% endblock %}

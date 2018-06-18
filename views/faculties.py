@@ -32,6 +32,8 @@ def add_faculty():
 @login_required
 def majors(id1):
     majors = models.Major.query.filter(models.Faculty.id == id1).all()
+    print(id1)
+    print(majors)
     return render_template('faculty/majors.html', id1=id1, majors=majors)
 
 
@@ -40,6 +42,7 @@ def majors(id1):
 @login_required
 def major(id1, id2):
     major = models.Major.query.filter(models.Faculty.id == id1 and models.Major.id == id2).first()
+    print(major)
     return render_template('faculty/major.html', id1=id1, id2=id2, major=major)
 
 

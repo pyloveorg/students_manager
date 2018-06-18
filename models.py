@@ -139,7 +139,7 @@ class Faculty(db.Model):
 
     __tablename__ = 'faculty'
     __searchable__ = ['name']
-    id = Column(Integer, autoincrement=True, primary_key=True, )
+    id = Column(Integer, autoincrement=True, primary_key=True )
     name = Column(String(100), default='')
     major = db.relationship('Major', backref='faculty')
     year = db.relationship('Year', backref='faculty')
