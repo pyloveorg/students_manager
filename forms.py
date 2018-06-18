@@ -9,22 +9,27 @@ from util.validators import Unique
 
 
 def faculty_choices():
+    """ Return all faculties from database. """
     return Faculty.query.all()
 
 
 def major_choices():
+    """ Return all majors from database. """
     return Major.query.all()
 
 
 def year_choices():
+    """ Return all years from database. """
     return Year.query.all()
 
 
 def group_choices():
+    """ Return all groups from database. """
     return Group.query.all()
 
 
 class RegistrationForm(FlaskForm):
+
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired(), Unique(
             User, User.username,
             message='There is already an account with that username.')])
@@ -50,6 +55,7 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+
     username = StringField('Username', [validators.InputRequired(), validators.Length(min=5, max=25)])
     password = PasswordField('Password', [validators.InputRequired(), validators.Length(min=5, max=25)])
     remember_me = BooleanField('Remember Me', default=True)
@@ -57,6 +63,7 @@ class LoginForm(FlaskForm):
 
 
 class DeleteForm(FlaskForm):
+
     password = PasswordField('Password', [validators.InputRequired(), validators.Length(min=5, max=25)])
     submit = SubmitField('Submit')
 
@@ -64,6 +71,7 @@ class DeleteForm(FlaskForm):
 
 
 class ChangePasswordForm(FlaskForm):
+
     password = PasswordField('Current password', [validators.InputRequired()])
     new_password = PasswordField('New Password', [validators.InputRequired(), validators.Length(min=5, max=25),
                                           validators.EqualTo('confirm', message='Passwords must match')])
@@ -72,6 +80,7 @@ class ChangePasswordForm(FlaskForm):
 
 
 class ForgotPasswordForm(FlaskForm):
+
     email = EmailField('Email Address', [validators.Length(min=6, max=35), validators.Email(message=None)])
 
     def validate(self):
@@ -89,6 +98,7 @@ class ForgotPasswordForm(FlaskForm):
 
 
 class EditProfileForm(FlaskForm):
+
     username = StringField('Username', [validators.Length(min=5, max=25), validators.InputRequired()])
     about_me = TextAreaField('About me', [validators.Length(min=0, max=140)])
     faculty = QuerySelectField('Faculty', [validators.DataRequired()], query_factory=faculty_choices)
@@ -100,6 +110,7 @@ class EditProfileForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
+
     choices = [('Student', 'Student'), ('Faculty', 'Faculty'), ('Major', 'Major'), ('Subject', 'Subject')]
     select = SelectField('Search', [validators.InputRequired()], choices=choices)
     search = StringField('')

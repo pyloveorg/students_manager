@@ -6,7 +6,7 @@
         {% for student in students %}
             <div id="div_students" class="col-md-4">
                 {% for user in users %}
-                {% if student.id+1 == user.id %}
+                {% if student.id + 1 == user.id %}
                 <img class="avatar" src="{{ user.avatar(128) }}">
                 <a href="/students/{{ student.id }}">{{ student.name }} {{ student.surname }}</a>
                 {% endif %}

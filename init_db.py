@@ -7,6 +7,8 @@ import json
 
 
 def db_admin():
+    """ Add admin to database. """
+
     username = "kamila"
     password = "kkkk1234"
     email = 'kamila.urbaniak26@gmail.com'

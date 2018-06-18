@@ -4,11 +4,15 @@ from app import app
 
 
 def generate_confirmation_token(email):
+    """ Generate confirmation token to email. """
+
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
 
 
 def confirm_token(token, expiration=3600):
+    """ Confirm email. """
+
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     try:
         email = serializer.loads(
