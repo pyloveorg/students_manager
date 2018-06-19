@@ -1,7 +1,11 @@
 {% extends "_base.html" %}
 
 {% block content %}
-
+    <style>
+    .avatar {
+        padding: 20px;
+    }
+    </style>
     <div class="row">
         {% for student in students %}
             <div id="div_students" class="col-md-4">
@@ -13,6 +17,7 @@
                 {% endfor %}
             </div>
         {% endfor %}
+    </div>
     </div>
 
 {% endblock %}
